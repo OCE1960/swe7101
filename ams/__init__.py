@@ -14,9 +14,16 @@ def create_app():
     app.config["SQLALCHEMY_ECHO"] = True
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
    
-    db.init_app(app)    
+    db.init_app(app) 
+    
+    from .models import User   
 
     with app.app_context():
         db.create_all()
+        
+    # a simple page that says hello
+    @app.route('/')
+    def hello():
+        return 'Hello, World!'
 
     return app
