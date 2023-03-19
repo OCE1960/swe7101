@@ -16,6 +16,8 @@ def create_app():
    
     db.init_app(app) 
     
+    from .models import Staff
+    from .models import Student
     from .models import User   
 
     with app.app_context():

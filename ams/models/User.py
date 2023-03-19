@@ -1,15 +1,25 @@
+from sqlalchemy import Identity
 from .. import db
 from .. import ma
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=True, nullable=False)
-    email = db.Column(db.String)
+    __tablename__ = 'users'
+    
+    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    telephone = db.Column(db.String(20), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+    is_staff = db.Column(db.Boolean, nullable=True)
+    is_student = db.Column(db.Boolean, nullable=True)
+    
+    def __repr__(self):
+        return "<User(username={self.username!r})>".format(self=self)
     
 class UserSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("email", "date_created", "_links")
+        fields = ("id", "username", "email", "telephone", "_links")
 
     # Smart hyperlinking
     _links = ma.Hyperlinks(
