@@ -20,7 +20,7 @@ Attendance Management System
 ## To Start the Application 
    `flask --app ams run --debug`
 
-## To Install All Application Dependecies 
+## To Install All Application Dependencies
    `pip install -r requirements.txt`
 
 ## to Update the requirements.txt
