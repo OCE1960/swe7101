@@ -12,6 +12,8 @@ class Student(db.Model):
     student_no = db.Column(db.String(120), nullable=False)
     date_of_birth = db.Column(db.Date, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    module_enrollments = db.relationship('ModuleEnrollment', backref='students')
+    module_lesson_attendance = db.relationship('ModuleLessonAttendance', backref='students')
     
     def __repr__(self) -> str:
        return f"Student(id={self.id!r}, first_name{self.first_name!r}, middle_name={self.middle_name!r}, last_name={self.last_name!r})"

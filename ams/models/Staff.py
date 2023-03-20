@@ -15,7 +15,7 @@ class Staff(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
     def __repr__(self) -> str:
-       return f"Student(id={self.id!r}, first_name{self.first_name!r}, middle_name={self.middle_name!r}, last_name={self.last_name!r})"
+       return f"Staff(id={self.id!r}, first_name{self.first_name!r}, middle_name={self.middle_name!r}, last_name={self.last_name!r})"
     
 class StaffSchema(ma.Schema):
     class Meta:
