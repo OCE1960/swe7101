@@ -16,6 +16,7 @@ def create_app():
    
     db.init_app(app) 
     
+    from .models import Course
     from .models import Module
     from .models import ModuleEnrollment
     from .models import ModuleLesson
@@ -23,10 +24,11 @@ def create_app():
     from .models import Semester
     from .models import Staff
     from .models import Student
-    from .models import User   
+    from .models import User
+    from .models import Module_Staff_M2M 
 
     with app.app_context():
-        #db.drop_all() #Function to Delete the entire Table
+        db.drop_all() #Function to Delete the entire Table
         db.create_all()
         
     # a simple page that says hello

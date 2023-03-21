@@ -12,6 +12,7 @@ class Student(db.Model):
     student_no = db.Column(db.String(120), nullable=False)
     date_of_birth = db.Column(db.Date, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    is_active = db.Column(db.Boolean, nullable=False)
     module_enrollments = db.relationship('ModuleEnrollment', backref='students')
     module_lesson_attendance = db.relationship('ModuleLessonAttendance', backref='students')
     

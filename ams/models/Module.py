@@ -1,6 +1,7 @@
 from sqlalchemy import Identity
 from .. import db
 from .. import ma
+from . import Staff
 
 class Module(db.Model):
     __tablename__ = 'modules'
@@ -9,8 +10,8 @@ class Module(db.Model):
     name = db.Column(db.String(150), nullable=False)
     module_code = db.Column(db.String(20), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    staff_id = db.Column(db.Integer, db.ForeignKey('staffs.id'), nullable=False)
     semester_id = db.Column(db.Integer, db.ForeignKey('semesters.id'), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
     module_enrollments = db.relationship('ModuleEnrollment', backref='modules')
     module_lessons = db.relationship('ModuleLesson', backref='modules')
     
