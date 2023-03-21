@@ -25,11 +25,15 @@ def create_app():
     from .models import Staff
     from .models import Student
     from .models import User
-    from .models import Module_Staff_M2M 
+    from .models import Module_Staff_M2M
+    from .test_data import data
 
+
+    
     with app.app_context():
         db.drop_all() #Function to Delete the entire Table
         db.create_all()
+        data.seed_data()
         
     # a simple page that says hello
     @app.route('/')
