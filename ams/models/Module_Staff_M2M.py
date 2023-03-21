@@ -1,5 +1,4 @@
 from .. import db
-from .. import ma
 from .Module import Module
 from .Staff import Staff
 
