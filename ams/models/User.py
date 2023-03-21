@@ -12,9 +12,11 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
     is_staff = db.Column(db.Boolean, nullable=True)
     is_student = db.Column(db.Boolean, nullable=True)
+    staff = db.relationship('Staff', backref='users')
+    student = db.relationship('Student', backref='users')
     
     def __repr__(self):
-        return "<User(username={self.username!r})>".format(self=self)
+        return "<User(id={self.id!r})>".format(self=self)
     
 class UserSchema(ma.Schema):
     class Meta:
