@@ -25,3 +25,11 @@ Attendance Management System
 
 ## to Update the requirements.txt
    `pip freeze > requirements.txt`
+
+# Git Command
+
+## Step in Using Version Control
+1. Create branch - `git checkout -b <branch_name>`
+2. Staging - `git add .`
+3. Commit - `git commit -m 'Commit message'`
+3. push - `git push`clear`
