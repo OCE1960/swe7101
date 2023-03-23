@@ -21,15 +21,15 @@ class User(db.Model):
 class UserSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "username", "email", "telephone", "_links")
+        fields = ("id", "username", "email", "telephone", "password")
 
     # Smart hyperlinking
-    _links = ma.Hyperlinks(
-        {
-            "self": ma.URLFor("user_detail", values=dict(id="<id>")),
-            "collection": ma.URLFor("users"),
-        }
-    )
+    # _links = ma.Hyperlinks(
+    #     {
+    #         "self": ma.URLFor("user_detail", values=dict(id="<id>")),
+    #         "collection": ma.URLFor("users"),
+    #     }
+    # )
 
 
 user_schema = UserSchema()
