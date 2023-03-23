@@ -11,6 +11,7 @@ Attendance Management System
 
 ## To Activate the Virtual Environment
 
+
 ### for Windows
    `source venv\Scripts\activate`
    
