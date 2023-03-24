@@ -6,8 +6,8 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from .. import db
-from ..models.User import User, user_schema
+from .. import db, jwt
+from ..models.User import User, user_schema, users_schema
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -20,12 +20,34 @@ def login():
     
     try:
         user = db.session.execute(db.select(User).where(User.username == username)).scalar_one()
-        userp = check_password_hash(user.password, password)
-        if(userp):
+        password_checked = check_password_hash(user.password, password)
+        if(password_checked):
             access_token = create_access_token(identity=username)
-            return jsonify(access_token=access_token)
+            context = {
+               "access_token" : access_token,
+               "user_id" : user.id
+            }
+            return jsonify(context)
         return jsonify({"msg": "Bad username or password"}), 401 
     except Exception as e:
         return jsonify({"error": "Invalid Credential"}), 401
+    
+@bp.route("/users/<int:id>", methods=["GET"])
+@jwt_required()
+def user_detail(id):
+    try:
+        user = db.session.execute(db.select(User).filter_by(id=id)).scalar_one()
+        return user_schema.dump(user)
+    except Exception as e:
+        return jsonify(e.__repr__()), 401
+    
+@bp.route("/users", methods=["GET"])
+@jwt_required()
+def users():
+    try:
+        users = db.session.execute(db.select(User).order_by(User.username)).scalars()
+        return users_schema.dump(users) 
+    except Exception as e:
+        return jsonify(e.__repr__()), 401
 
     

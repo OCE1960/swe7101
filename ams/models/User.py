@@ -16,20 +16,13 @@ class User(db.Model):
     student = db.relationship('Student', backref='users')
     
     def __repr__(self):
-        return "<User(id={self.id!r})>".format(self=self)
+        return f"User(id={self.id!r}, username{self.username!r})"
+        return "<User(username={self.username!r})>".format(self=self)
     
 class UserSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "username", "email", "telephone", "password")
-
-    # Smart hyperlinking
-    # _links = ma.Hyperlinks(
-    #     {
-    #         "self": ma.URLFor("user_detail", values=dict(id="<id>")),
-    #         "collection": ma.URLFor("users"),
-    #     }
-    # )
+        fields = ("id", "username", "email", "telephone")
 
 
 user_schema = UserSchema()

@@ -6,6 +6,8 @@ from flask_marshmallow import Marshmallow
 
 db = SQLAlchemy()
 
+jwt = JWTManager()
+
 ma = Marshmallow() 
 
 def create_app():
@@ -18,10 +20,14 @@ def create_app():
     
     # Setup the Flask-JWT-Extended extension
     app.config["JWT_SECRET_KEY"] = "secret"
-    jwt = JWTManager(app)
+    
     
    
     db.init_app(app)
+    
+    ma.init_app(app)
+    
+    jwt.init_app(app)
     
     
     from .models import Course
@@ -43,7 +49,7 @@ def create_app():
     with app.app_context():
         db.drop_all() 
         db.create_all()
-        data.seed_data() 
+        data.seed_data()  
               
     # a simple page that says hello
     @app.route('/')

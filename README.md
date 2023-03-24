@@ -32,4 +32,4 @@ Attendance Management System
 1. Create branch - `git checkout -b <branch_name>`
 2. Staging - `git add .`
 3. Commit - `git commit -m 'Commit message'`
-3. push - `git push`clear`
+3. push - `git push`
