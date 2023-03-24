@@ -33,3 +33,5 @@ Attendance Management System
 2. Staging - `git add .`
 3. Commit - `git commit -m 'Commit message'`
 3. push - `git push`clear`
+## AMS activity diagram.
+'pdf available at the link https://lucid.app/lucidspark/ba24f6c6-9dbb-4afd-9129-75dd412f0c51/edit?viewport_loc=781%2C219%2C1578%2C755%2C0_0&invitationId=inv_f69f4d38-9233-404b-9bd3-417ea2268696'
