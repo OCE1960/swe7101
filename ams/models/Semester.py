@@ -18,15 +18,7 @@ class Semester(db.Model):
 class SemesterSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "session", "year", "is_active", "_links")
-
-    # Smart hyperlinking
-    _links = ma.Hyperlinks(
-        {
-            "self": ma.URLFor("semester_detail", values=dict(id="<id>")),
-            "collection": ma.URLFor("semesters"),
-        }
-    )
+        fields = ("id", "session", "year", "is_active")
 
 
 semester_schema = SemesterSchema()

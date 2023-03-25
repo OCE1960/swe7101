@@ -18,15 +18,7 @@ class ModuleLessonAttendance(db.Model):
 class ModuleLessonAttendanceSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "student_id", "module_lesson_id", "attendance_status", "updated_by", "_links")
-
-    # Smart hyperlinking
-    _links = ma.Hyperlinks(
-        {
-            "self": ma.URLFor("module_lesson_attendance_detail", values=dict(id="<id>")),
-            "collection": ma.URLFor("module_lesson_attendances"),
-        }
-    )
+        fields = ("id", "student_id", "module_lesson_id", "attendance_status", "updated_by")
 
 
 module_lesson_attendance_schema = ModuleLessonAttendanceSchema()

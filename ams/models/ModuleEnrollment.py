@@ -17,16 +17,7 @@ class ModuleEnrollment(db.Model):
 class ModuleEnrollmentSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "module_id", "student_id", "semester_id", "_links")
-
-    # Smart hyperlinking
-    _links = ma.Hyperlinks(
-        {
-            "self": ma.URLFor("module_enrollment_detail", values=dict(id="<id>")),
-            "collection": ma.URLFor("module_enrollments"),
-        }
-    )
-
+        fields = ("id", "module_id", "student_id", "semester_id")
 
 module_enrollment_schema = ModuleEnrollmentSchema()
 module_enrollments_schema = ModuleEnrollmentSchema(many=True)

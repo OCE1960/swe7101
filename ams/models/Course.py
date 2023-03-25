@@ -21,16 +21,7 @@ class Course(db.Model):
 class CourseSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "course_code", "course_name", "course_description", "course_level", "course_credit", "_links")
-
-    # Smart hyperlinking
-    _links = ma.Hyperlinks(
-        {
-            "self": ma.URLFor("course_detail", values=dict(id="<id>")),
-            "collection": ma.URLFor("courses"),
-        }
-    )
-
+        fields = ("id", "course_code", "course_name", "course_description", "course_level", "course_credit")
 
 course_schema = CourseSchema()
 courses_schema = CourseSchema(many=True)

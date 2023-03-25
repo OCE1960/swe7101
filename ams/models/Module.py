@@ -22,16 +22,7 @@ class Module(db.Model):
 class ModuleSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "name", "module_code", "description", "staff_id", "semester_id", "_links")
-
-    # Smart hyperlinking
-    _links = ma.Hyperlinks(
-        {
-            "self": ma.URLFor("module_detail", values=dict(id="<id>")),
-            "collection": ma.URLFor("modules"),
-        }
-    )
-
+        fields = ("id", "name", "module_code", "description", "staff_id", "semester_id")
 
 module_schema = ModuleSchema()
 modules_schema = ModuleSchema(many=True)

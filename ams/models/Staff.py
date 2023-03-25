@@ -21,15 +21,7 @@ class Staff(db.Model):
 class StaffSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "first_name", "middle_name", "last_name", "staff_code", "rank", "title", "user_id","_links")
-
-    # Smart hyperlinking
-    _links = ma.Hyperlinks(
-        {
-            "self": ma.URLFor("staff_detail", values=dict(id="<id>")),
-            "collection": ma.URLFor("staffs"),
-        }
-    )
+        fields = ("id", "first_name", "middle_name", "last_name", "staff_code", "rank", "title", "user_id")
 
 
 staff_schema = StaffSchema()

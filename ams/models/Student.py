@@ -22,15 +22,7 @@ class Student(db.Model):
 class StudentSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "first_name", "middle_name", "last_name", "student_no", "date_of_birth", "user_id","_links")
-
-    # Smart hyperlinking
-    _links = ma.Hyperlinks(
-        {
-            "self": ma.URLFor("student_detail", values=dict(id="<id>")),
-            "collection": ma.URLFor("students"),
-        }
-    )
+        fields = ("id", "first_name", "middle_name", "last_name", "student_no", "date_of_birth", "user_id")
 
 
 student_schema = StudentSchema()
