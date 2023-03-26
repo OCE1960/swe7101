@@ -12,8 +12,6 @@ from ..models.ModuleLesson import ModuleLesson
 from ..models.ModuleEnrollment import ModuleEnrollment
 from ..models.ModuleLessonAttendance import ModuleLessonAttendance
 
-
-
 password = 'password'
 user_password = generate_password_hash(password, 'sha256') 
 
