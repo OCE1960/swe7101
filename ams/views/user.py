@@ -4,6 +4,7 @@ from flask import request
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
+from flask_jwt_extended import unset_jwt_cookies
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from .. import db, jwt
@@ -49,5 +50,11 @@ def users():
         return users_schema.dump(users) 
     except Exception as e:
         return jsonify(e.__repr__()), 401
+    
+@bp.route("/logout", methods=["POST"])
+def logout():
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
 
     
