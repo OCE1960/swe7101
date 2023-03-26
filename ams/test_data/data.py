@@ -1,33 +1,54 @@
+from werkzeug.security import check_password_hash, generate_password_hash
+from datetime import date
+
 from .. import db
 from ..models.User import User
 from ..models.Staff import Staff
 from ..models.Student import Student
 from ..models.Course import Course
-from ..models.Semester import Semester
-from ..models.Module import Module
-from werkzeug.security import generate_password_hash, check_password_hash
+
+password = 'password'
+user_password = generate_password_hash(password, 'sha256') 
+
+user_staff_data =[{'username':'francis', 'email':'francis@bolton.ac.uk', 'telephone':'7812458923', 'firstname': 'Francis', 'lastname': 'Morris', 'staffcode': '7813'},
+            {'username':'ibtisam', 'email':'ibtisam@bolton.ac.uk', 'telephone':'7812452544','firstname': 'Ibtisam', 'lastname': 'Mogul', 'staffcode': '7814'},     
+            ]
+
+user_student_data =[
+            {'username':'rozmin', 'email':'rozmin@bolton.ac.uk', 'telephone':'765478239878','firstname': 'Rozmin', 'lastname': 'Shaikh', 'middlename':'Rose', 'dob':date(1999,10,14), 'student_no': '2228266'},
+            {'username':'azma', 'email':'Azma@bolton.ac.uk', 'telephone':'78124342433','firstname': 'Azma', 'lastname': 'Azzy', 'middlename':'Jane',  'dob':date(1995,8,15),'student_no': '2233847'},
+            {'username':'amar', 'email':'amar@bolton.ac.uk', 'telephone':'78942409599','firstname': 'Amar', 'lastname': 'Amarrii','middlename':'Hakim',  'dob':date(1999,9,3),'student_no': '22993883'},
+            {'username':'christian', 'email':'christian@bolton.ac.uk', 'telephone':'781625489533','firstname': 'Christian', 'lastname': 'Okeke', 'middlename':'Samuel','dob':date(1995,10,14), 'student_no': '22674663'},
+            {'username':'nalu', 'email':'nalu@bolton.ac.uk', 'telephone':'78120984523','firstname': 'Chukwunalu', 'lastname': 'Obi', 'middlename':'Prosper', 'dob':date(1996,10,31), 'student_no': '22139844'}
+            ]
+
+course_data=[
+    
+    {'code':'SWE7101','name':'Contemporary Software Engineering','description': "This course includes modern software practices like Agile", 'course_level':7,'course_credit':140 },
+    {'code':'SWE7102','name':'Advance Software Developement','description': "This course includes hard developement of software", 'course_level':7,'course_credit':140 }
+    ]
 
 def seed_data():
-    password = 'password'
-    
-    user_password = generate_password_hash(password, 'sha256')   
-    user1 = User(username='francis', email='francis@bolton.ac.uk', telephone='78124523', password='password', is_staff=True)
-    user2 = User(username='ibtisam', email='ibtisam@bolton.ac.uk', telephone='78124524', password='password', is_staff=True)
-    
-    staff1 = Staff(first_name='Francis', last_name='Morris', staff_code='7813', users=user1)
-    staff2=Staff(first_name='Ibtisam',last_name='Mogul', staff_code="7814",users=user2)
+    for user_staff in user_staff_data:
+        staff_user = User(username=user_staff['username'], email=user_staff['email'], telephone=user_staff['telephone'], password=user_password, is_staff=True)
 
-    user3=User(username='rozmin',email='rozmin@bolton.ac.uk',telephone='7654789878',password='password',is_student=True)
-    student1=Student(first_name='Rozmin', last_name='Shaikh', student_no='2228266', users=user3)
+        db.session.add(staff_user)
+        db.session.commit()
 
-    course1=Course(code=123,course_name="Masters in Software Engineering",course_description="This is the Masters course for Software engineering", course_level=7, course_credit=140)
-    
-    semester1=Semester(session=1, year=1, is_Active=True)
-    
-    module1=Module(name="Contemporary Software Practices", module_code="SWE7101", description="First Module of Msc in Software Engineering")
-    
-    moduleLesson1=moduleLesson1(venue="Richie Computing Lab", time="9:00", date="12-02-2023", checking_code="AHB123")
+        staff = Staff(first_name=user_staff['firstname'], last_name=user_staff['lastname'], staff_code=user_staff['staffcode'], user_id=staff_user.id)
+        db.session.add(staff)
+        db.session.commit()
 
-    moduleLessonAttendance1=moduleLessonAttendance1(attendance_status="Present")
-    db.session.add_all([staff1])
-    db.session.commit()
+    for user_student in user_student_data:
+        student_user=User(username=user_student['username'],email=user_student['email'],telephone=user_student['telephone'],password=user_password,is_student=True)
+        db.session.add(student_user)
+        db.session.commit()
+
+        student=Student(first_name=user_student['firstname'], last_name=user_student['lastname'],middle_name=user_student['middlename'], student_no=user_student['student_no'],date_of_birth=user_student['dob'], is_active=True, user_id=student_user.id)
+        db.session.add(student)
+        db.session.commit()
+
+    for course in course_data:
+        course=Course(course_name=course['name'],course_code=course['code'],course_description=course['description'], course_level=course['level'], course_credit=['credit'])
+        db.session.add(course)
+        db.session.commit()
