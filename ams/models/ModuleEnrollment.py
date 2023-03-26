@@ -14,6 +14,10 @@ class ModuleEnrollment(db.Model):
     def __repr__(self) -> str:
        return f"ModuleEnrollment(id={self.id!r}, module_id{self.module_id!r})"
     
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
 class ModuleEnrollmentSchema(ma.Schema):
     class Meta:
         # Fields to expose

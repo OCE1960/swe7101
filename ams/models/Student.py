@@ -19,6 +19,10 @@ class Student(db.Model):
     def __repr__(self) -> str:
        return f"Student(id={self.id!r}, first_name{self.first_name!r}, middle_name={self.middle_name!r}, last_name={self.last_name!r})"
     
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
 class StudentSchema(ma.Schema):
     class Meta:
         # Fields to expose

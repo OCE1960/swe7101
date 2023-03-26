@@ -18,6 +18,10 @@ class User(db.Model):
     def __repr__(self):
         return "<User(id={self.id!r})>".format(self=self)
     
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
 class UserSchema(ma.Schema):
     class Meta:
         # Fields to expose
