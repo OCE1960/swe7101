@@ -33,3 +33,15 @@ Attendance Management System
 2. Staging - `git add .`
 3. Commit - `git commit -m 'Commit message'`
 3. push - `git push`
+
+## Runing Flask Test
+ `pytest -v`
+
+## Running flask test with Coverage
+`coverage run -m pytest`
+
+## Viewing Flast test coverage report
+`coverage report`
+
+## generating the test report
+`coverage html`

@@ -10,7 +10,7 @@ from .. import db, jwt
 from ..models.User import User, user_schema, users_schema
 
 
-bp = Blueprint('auth', __name__, url_prefix='/auth')
+bp = Blueprint('auth', __name__, url_prefix='/api/v1/auth')
 
 # create_access_token() function is used to actually generate the JWT.
 @bp.route("/login", methods=["POST"])
@@ -28,11 +28,11 @@ def login():
                "user_id" : user.id
             }
             return jsonify(context)
-        return jsonify({"msg": "Bad username or password"}), 401 
+        return jsonify({"error": "Bad username or password"}), 401 
     except Exception as e:
         return jsonify({"error": "Invalid Credential"}), 401
     
-@bp.route("/users/<int:id>", methods=["GET"])
+@bp.route("/users/<id>", methods=["GET"])
 @jwt_required()
 def user_detail(id):
     try:
