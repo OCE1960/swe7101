@@ -21,6 +21,12 @@ user_student_data =[
             {'username':'nalu', 'email':'nalu@bolton.ac.uk', 'telephone':'78120984523','firstname': 'Chukwunalu', 'lastname': 'Obi', 'middlename':'Prosper', 'dob':date(1996,10,31), 'student_no': '22139844'}
             ]
 
+course_data=[
+    
+    {'code':'SWE7101','name':'Contemporary Software Engineering','description': "This course includes modern software practices like Agile", 'course_level':7,'course_credit':140 },
+    {'code':'SWE7102','name':'Advance Software Developement','description': "This course includes hard developement of software", 'course_level':7,'course_credit':140 }
+    ]
+
 
 def seed_data():
 
@@ -43,5 +49,11 @@ def seed_data():
 
         student=Student(first_name=user_student['firstname'], last_name=user_student['lastname'],middle_name=user_student['middlename'], student_no=user_student['student_no'],date_of_birth=user_student['dob'], is_active=True, user_id=student_user.id)
         db.session.add(student)
+        db.session.commit()
+
+            
+    for course in course_data:
+        course=Course(course_name=course['name'],course_code=course['code'],course_description=course['description'], course_level=course['level'], course_credit=['credit'])
+        db.session.add(course)
         db.session.commit()
 
