@@ -18,6 +18,10 @@ class Course(db.Model):
     def __repr__(self) -> str:
        return f"Course(id={self.id!r}, course_code{self.course_code!r}, course_name={self.course_name!r})"
     
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
 class CourseSchema(ma.Schema):
     class Meta:
         # Fields to expose

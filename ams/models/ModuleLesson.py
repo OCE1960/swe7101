@@ -18,6 +18,10 @@ class ModuleLesson(db.Model):
     def __repr__(self) -> str:
        return f"ModuleLesson(id={self.id!r}, venue{self.venue!r}, module_id{self.module_id!r}, semester_id{self.semester_id!r})"
     
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
 class ModuleLessonSchema(ma.Schema):
     class Meta:
         # Fields to expose

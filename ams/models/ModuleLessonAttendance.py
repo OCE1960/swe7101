@@ -15,6 +15,10 @@ class ModuleLessonAttendance(db.Model):
     def __repr__(self) -> str:
        return f"ModuleLessonAttendance(id={self.id!r}, student_id{self.student_id!r}, module_lesson_id{self.module_lesson_id!r}, attendance_status{self.attendance_status!r})"
     
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
 class ModuleLessonAttendanceSchema(ma.Schema):
     class Meta:
         # Fields to expose
