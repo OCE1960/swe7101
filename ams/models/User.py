@@ -19,6 +19,10 @@ class User(db.Model):
         return f"User(id={self.id!r}, username{self.username!r})"
         return "<User(username={self.username!r})>".format(self=self)
     
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
 class UserSchema(ma.Schema):
     class Meta:
         # Fields to expose
