@@ -15,18 +15,14 @@ class Semester(db.Model):
     def __repr__(self) -> str:
        return f"Semester(id={self.id!r}, session{self.session!r}, year={self.year!r}, is_active={self.last_name!r})"
     
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
 class SemesterSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "session", "year", "is_active", "_links")
-
-    # Smart hyperlinking
-    _links = ma.Hyperlinks(
-        {
-            "self": ma.URLFor("semester_detail", values=dict(id="<id>")),
-            "collection": ma.URLFor("semesters"),
-        }
-    )
+        fields = ("id", "session", "year", "is_active")
 
 
 semester_schema = SemesterSchema()

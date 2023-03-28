@@ -18,18 +18,14 @@ class ModuleLesson(db.Model):
     def __repr__(self) -> str:
        return f"ModuleLesson(id={self.id!r}, venue{self.venue!r}, module_id{self.module_id!r}, semester_id{self.semester_id!r})"
     
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
 class ModuleLessonSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "module_id", "venue", "semester_id", "date", "time", "checking_code", "_links")
-
-    # Smart hyperlinking
-    _links = ma.Hyperlinks(
-        {
-            "self": ma.URLFor("module_lesson_detail", values=dict(id="<id>")),
-            "collection": ma.URLFor("module_lessons"),
-        }
-    )
+        fields = ("id", "module_id", "venue", "semester_id", "date", "time", "checking_code")
 
 
 module_lesson_schema = ModuleLessonSchema()

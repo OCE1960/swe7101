@@ -19,18 +19,14 @@ class Student(db.Model):
     def __repr__(self) -> str:
        return f"Student(id={self.id!r}, first_name{self.first_name!r}, middle_name={self.middle_name!r}, last_name={self.last_name!r})"
     
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
 class StudentSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "first_name", "middle_name", "last_name", "student_no", "date_of_birth", "user_id","_links")
-
-    # Smart hyperlinking
-    _links = ma.Hyperlinks(
-        {
-            "self": ma.URLFor("student_detail", values=dict(id="<id>")),
-            "collection": ma.URLFor("students"),
-        }
-    )
+        fields = ("id", "first_name", "middle_name", "last_name", "student_no", "date_of_birth", "user_id")
 
 
 student_schema = StudentSchema()
