@@ -2,6 +2,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
+import click
+from flask.cli import with_appcontext
+
 
 db = SQLAlchemy()
 
@@ -47,6 +50,7 @@ def create_app():
     from .models import Student
     from .models import User
     from .models import Module_Staff_M2M
+<<<<<<< HEAD
     from .test_data import data
 
 
@@ -59,11 +63,45 @@ def create_app():
         
 =======
         data.seed_data()  
+=======
+    
+    
+    from .views import user
+    app.register_blueprint(user.bp)
+    
+    
+    with app.app_context():
+        db.create_all()
+>>>>>>> 010277d648ac9cbc45cfb95a182c58d515a11d28
               
 >>>>>>> 9dac22e760932c03ceb9675d5e49d18e3c05fd35
     # a simple page that says hello
     @app.route('/')
     def hello():
         return 'Hello, World!'
+    
+    #this adds the custom command to app
+    app.cli.add_command(seed_data)
 
     return app
+
+
+
+
+"""
+A custom command for seeding database test data
+to execute type : flask --app ams seed_data    in the terminal
+
+"""
+@click.command(name='seed_data')
+@with_appcontext
+def seed_data():
+    from .test_data import data
+    db.drop_all() 
+    db.create_all()
+    data.seed_data() 
+
+
+
+
+
