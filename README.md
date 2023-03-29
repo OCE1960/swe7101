@@ -11,14 +11,20 @@ Attendance Management System
 
 ## To Activate the Virtual Environment
 
-### for Windows
+### for Windows on Bash
    `source venv\Scripts\activate`
+
+### for Windows on Powershell
+   `venv\Scripts\activate`
    
 ### for MacOS/Linus
    `. venv/bin/activate`
 
 ## To Start the Application 
    `flask --app ams run --debug`
+
+## To run custom command for the seeder
+   `flask --app ams seed_data`
 
 ## To Install All Application Dependencies
    `pip install -r requirements.txt`
