@@ -132,7 +132,7 @@ def seed_data():
 
     for user_staff in user_staff_data:
        
-        staff_user = User(username=user_staff['username'], email=user_staff['email'], telephone=user_staff['telephone'], password=user_password, is_staff=True)
+        staff_user = User(username=user_staff['username'], email=user_staff['email'], telephone=user_staff['telephone'], password=user_password, is_staff=True, is_active=True)
         staff_user.save()
         
 
@@ -141,11 +141,11 @@ def seed_data():
         
         
     for user_student in user_student_data:
-        student_user=User(username=user_student['username'],email=user_student['email'],telephone=user_student['telephone'],password=user_password,is_student=True)
+        student_user=User(username=user_student['username'],email=user_student['email'],telephone=user_student['telephone'],password=user_password,is_student=True, is_active=True)
         student_user.save()
         
 
-        student=Student(first_name=user_student['firstname'], last_name=user_student['lastname'],middle_name=user_student['middlename'], student_no=user_student['student_no'],date_of_birth=user_student['dob'], is_active=True, user_id=student_user.id)
+        student=Student(first_name=user_student['firstname'], last_name=user_student['lastname'],middle_name=user_student['middlename'], student_no=user_student['student_no'],date_of_birth=user_student['dob'], user_id=student_user.id)
         student.save()
         
 

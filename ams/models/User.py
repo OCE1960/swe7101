@@ -12,12 +12,12 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
     is_staff = db.Column(db.Boolean, nullable=True)
     is_student = db.Column(db.Boolean, nullable=True)
+    is_active = db.Column(db.Boolean, nullable=True)
     staff = db.relationship('Staff', backref='users')
     student = db.relationship('Student', backref='users')
     
     def __repr__(self):
         return f"User(id={self.id!r}, username{self.username!r})"
-        return "<User(username={self.username!r})>".format(self=self)
     
     def save(self):
         db.session.add(self)
@@ -26,7 +26,7 @@ class User(db.Model):
 class UserSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "username", "email", "telephone")
+        fields = ("id", "username", "email", "telephone", "is_active")
 
 
 user_schema = UserSchema()
