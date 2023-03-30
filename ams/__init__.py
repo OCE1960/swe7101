@@ -47,6 +47,9 @@ def create_app():
     
     from .views import user
     from .views import module_lesson
+    from .views import module_lesson_attendance
+
+    app.register_blueprint(module_lesson_attendance.bp)
     app.register_blueprint(module_lesson.bp)
     app.register_blueprint(user.bp)
     
