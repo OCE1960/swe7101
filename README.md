@@ -44,7 +44,7 @@ Attendance Management System
  `pytest -v`
 
 ## Running flask test with Coverage
-`coverage run -m pytest`
+`coverage run -m pytest -v`
 
 ## Viewing Flast test coverage report
 `coverage report`
