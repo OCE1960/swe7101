@@ -28,7 +28,11 @@ def get_module_lessons(module_id):
             db.session.execute(db.select(ModuleEnrollment).filter_by(module_id=module_id, student_id=user.id)).scalar_one()
         today = date.today()
         module_lessons = db.session.execute(db.select(ModuleLesson).where(ModuleLesson.module_id == module_id).where(ModuleLesson.date <= today)).scalars()
-        return module_lessons_schema.dump(module_lessons) 
+        context = {
+            "success" : True,
+            "data" : module_lessons_schema.dump(module_lessons)
+        }
+        return jsonify(context)
     except Exception as e:
         return jsonify({"error": "Their was an Error fetching the Module Lesson"}), 401
 
