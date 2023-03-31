@@ -50,6 +50,14 @@ class AuthActions(object):
             }
         )
 
+    def loginStudent(self, username='rozmin', password='password'):
+        return self._client.post(
+            '/api/v1/auth/login',
+            json={
+                "username": username, "password": password
+            }
+        )
+
     # def logout(self):
     #     return self._client.get('/auth/logout')
     
