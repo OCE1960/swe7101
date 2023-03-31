@@ -5,7 +5,7 @@ from .. import ma
 class Semester(db.Model):
     __tablename__ = 'semesters'
     
-    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True)
+    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True, index=True)
     session = db.Column(db.String(120), unique=True, nullable=False)
     year = db.Column(db.String(5), nullable=False)
     is_active = db.Column(db.Boolean, nullable=False)

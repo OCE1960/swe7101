@@ -5,9 +5,9 @@ from .. import ma
 class ModuleLessonAttendance(db.Model):
     __tablename__ = 'module_lesson_attendances'
     
-    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True)
-    student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
-    module_lesson_id = db.Column(db.Integer, db.ForeignKey('module_lessons.id'), nullable=False)
+    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True, index=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False, index=True)
+    module_lesson_id = db.Column(db.Integer, db.ForeignKey('module_lessons.id'), nullable=False, index=True)
     attendance_status = db.Column(db.String(50), nullable=False)
     updated_by = db.Column(db.Integer, db.ForeignKey('staffs.id'), nullable=True)
     

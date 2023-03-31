@@ -5,10 +5,10 @@ from .. import ma
 class ModuleEnrollment(db.Model):
     __tablename__ = 'module_enrollments'
     
-    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True)
-    module_id = db.Column(db.Integer, db.ForeignKey('modules.id'), nullable=False)
-    student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
-    semester_id = db.Column(db.Integer, db.ForeignKey('semesters.id'), nullable=False)
+    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True, index=True)
+    module_id = db.Column(db.Integer, db.ForeignKey('modules.id'), nullable=False, index=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False, index=True)
+    semester_id = db.Column(db.Integer, db.ForeignKey('semesters.id'), nullable=False, index=True)
     
     
     def __repr__(self) -> str:

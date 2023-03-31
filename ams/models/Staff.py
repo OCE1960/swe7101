@@ -5,14 +5,14 @@ from .. import ma
 class Staff(db.Model):
     __tablename__ = 'staffs'
     
-    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True)
+    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True, index=True)
     first_name = db.Column(db.String(80), nullable=False)
     middle_name = db.Column(db.String(120), nullable=True)
     last_name = db.Column(db.String(20),  nullable=False)
     staff_code = db.Column(db.String(120), unique=True, nullable=False)
     rank = db.Column(db.String(120), nullable=True)
     title = db.Column(db.String(120), nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, index=True)
     attendances_marked = db.relationship('ModuleLessonAttendance', backref='staffs')
     
     def __repr__(self) -> str:
