@@ -5,13 +5,13 @@ from .. import ma
 class Student(db.Model):
     __tablename__ = 'students'
     
-    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True)
+    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True, index=True)
     first_name = db.Column(db.String(80), nullable=False)
     middle_name = db.Column(db.String(120), nullable=False)
     last_name = db.Column(db.String(20), nullable=False)
     student_no = db.Column(db.String(120), nullable=False)
     date_of_birth = db.Column(db.Date, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, index=True)
     module_enrollments = db.relationship('ModuleEnrollment', backref='students')
     module_lesson_attendance = db.relationship('ModuleLessonAttendance', backref='students')
     

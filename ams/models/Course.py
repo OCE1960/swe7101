@@ -5,7 +5,7 @@ from .. import ma
 class Course(db.Model):
     __tablename__ = 'courses'
     
-    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True)
+    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True, index=True)
     course_code = db.Column(db.String(150), nullable=False, unique=True)
     course_name = db.Column(db.String(20), nullable=False)
     course_description = db.Column(db.Text, nullable=False)

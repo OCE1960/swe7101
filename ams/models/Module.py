@@ -8,12 +8,12 @@ from .Module_Staff_M2M import module_staff_m2m
 class Module(db.Model):
     __tablename__ = 'modules'
     
-    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True)
+    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True, index=True)
     name = db.Column(db.String(150), nullable=False)
     module_code = db.Column(db.String(20), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    semester_id = db.Column(db.Integer, db.ForeignKey('semesters.id'), nullable=False)
-    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+    semester_id = db.Column(db.Integer, db.ForeignKey('semesters.id'), nullable=False, index=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False, index=True)
     module_enrollments = db.relationship('ModuleEnrollment', backref='modules')
     module_lessons = db.relationship('ModuleLesson', backref='modules')
     module_staff = db.relationship('Staff', secondary=module_staff_m2m, backref='staffs')

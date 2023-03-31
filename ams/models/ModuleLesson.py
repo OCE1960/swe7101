@@ -5,12 +5,12 @@ from .. import ma
 class ModuleLesson(db.Model):
     __tablename__ = 'module_lessons'
     
-    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True)
+    id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True, index=True)
     venue = db.Column(db.String(120), nullable=False)
     date = db.Column(db.Date, nullable=False)
     time = db.Column(db.Time, nullable=False)
-    module_id = db.Column(db.Integer, db.ForeignKey('modules.id'), nullable=False)
-    semester_id = db.Column(db.Integer, db.ForeignKey('semesters.id'), nullable=False)
+    module_id = db.Column(db.Integer, db.ForeignKey('modules.id'), nullable=False, index=True)
+    semester_id = db.Column(db.Integer, db.ForeignKey('semesters.id'), nullable=False, index=True)
     checking_code = db.Column(db.String(80), nullable=True)
     module_lesson_attendance = db.relationship('ModuleLessonAttendance', backref='module_lessons')
     
