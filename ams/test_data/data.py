@@ -85,9 +85,9 @@ semester_seed_data=[
 ]
 
 module_lesson_seed_data=[
-    {'module_id':1, 'venue': "Barnee Lab", 'date': date(2023,4,11), 'time':time(6,47)},
-    {'module_id':1,'venue': "Barnee Lab", 'date': date(2023,4,12), 'time':time(6,47)},
-    {'module_id':1,'venue': "Barnee Lab", 'date': date(2023,4,13), 'time':time(6,47)},
+    {'module_id':1, 'venue': "Barnee Lab", 'date': date(2023,3,11), 'time':time(6,47)},
+    {'module_id':1,'venue': "Barnee Lab", 'date': date(2023,3,12), 'time':time(6,47)},
+    {'module_id':1,'venue': "Barnee Lab", 'date': date(2023,3,13), 'time':time(6,47)},
     {'module_id':1,'venue': "Barnee Lab", 'date': date(2023,4,14), 'time':time(6,47)},
 
     {'module_id':1,'venue': "Sinclair Lab", 'date': date(2023,4,11), 'time':time(6,47)},
