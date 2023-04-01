@@ -4,9 +4,10 @@ from flask import request
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 
+from .. import db
 from ..models.ModuleLesson import ModuleLesson
 from ..models.ModuleEnrollment import ModuleEnrollment
-from ..models.ModuleLessonAttendance import ModuleLessonAttendance
+from ..models.ModuleLessonAttendance import ModuleLessonAttendance, module_lesson_attendances_schema
 from ..models.Module import Module
 from ..models.Student import Student
 from ..models.Staff import Staff
@@ -93,6 +94,51 @@ def bulk_attendance_registration(module_lesson_id ):
     
         
 
+@bp.route("/<int:module_lesson_id>", methods=["GET"])
+@jwt_required()
+def get_module_lesson_attendance(module_lesson_id):
+    try:
+        attendances = db.session.execute(db.select(ModuleLessonAttendance).filter_by(module_lesson_id=module_lesson_id)).scalars()
+        attendance_records = []
+        for attendance in attendances:
+            student = db.session.execute(db.select(Student).where(Student.id == attendance.student_id)).scalar_one()
+            user = db.session.execute(db.select(User).where(User.id == student.user_id)).scalar_one()
+            full_name = student.first_name + " " + student.first_name
+            record = {
+                "student_id" : student.id,
+                "username" : user.username,
+                "email" : user.email,
+                "name" : full_name,
+                'attendance_status': attendance.attendance_status
+            }
+
+            attendance_records.append(record)
+        context = {
+            "success" : True,
+            "data" : attendance_records
+        }
+        return jsonify(context)
+    except Exception as e:
+        return jsonify({"error": "No Attendance for this Lesson"}), 401
+    
+    
+@bp.route("/<int:module_lesson_id>/students/<int:student_id>", methods=["PUT"])
+@jwt_required()
+def update_module_lesson_attendance(module_lesson_id, student_id):
+    try:
+        attendance = db.session.execute(db.select(ModuleLessonAttendance).where(ModuleLessonAttendance.module_lesson_id == module_lesson_id).where(ModuleLessonAttendance.student_id == student_id)).scalar_one()
+        status = request.json.get("status", None)
+        valid_status_codes = ["P", "A", "O", "N", "C"]
+        if status not in valid_status_codes:
+            return jsonify({"invalid": "Invalid Status Code"}), 401
+        
+        attendance.attendance_status = status
+        db.session.commit()
+        
+        return jsonify({"success": "Attendance Updated Successfully"}), 200
+        
+    except Exception as e:
+        return jsonify(str(e)), 401
 
 
 
