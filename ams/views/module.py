@@ -10,9 +10,10 @@ from flask_jwt_extended import jwt_required
 
 from .. import db, jwt
 from ..models.ModuleLesson import ModuleLesson, module_lessons_schema
-from ..models.Module import Module
+from ..models.Module import Module, modules_schema
 from ..models.ModuleEnrollment import ModuleEnrollment
 from ..models.User import User
+from ..models.Staff import Staff, staffs_schema
 
 
 bp = Blueprint('modules', __name__, url_prefix='/api/v1/modules')
@@ -39,17 +40,30 @@ def get_module_lessons(module_id):
     
 @bp.route("/lessons", methods=["GET"])
 @jwt_required()
-def generate_assigned_lessons(id):
+def get_staff_lessons():
     try:
         user_name = get_jwt_identity()
-        db.session.execute(db.select(User).where(User.username == user_name).where(User.is_staff == True)).scalar_one()
-        module_lesson = db.session.execute(db.select(ModuleLesson).filter_by(id=id)).scalar_one()
-        letters = string.ascii_uppercase
-        checking_code = ''.join(random.choice(letters) for i in range(6))
-        module_lesson.checking_code = checking_code
-        db.session.commit()
-        return jsonify({"code": checking_code}), 200
+        user = db.session.execute(db.select(User).where(User.username == user_name).where(User.is_staff == True)).scalar_one()
+        staff = db.session.execute(db.select(Staff).where(Staff.user_id == user.id)).scalar_one()
+        assigned_modules = staff.modules
+        lessons = []
+        for module in assigned_modules:
+            
+            lesson = {
+                "module_id" : module.id,
+                "lessons" : module_lessons_schema.dump(module.module_lessons)
+            }
+            
+            lessons.append(lesson)
+        
+        context_response = {
+            "data" : lessons,
+            "success" : True,
+        }
+            
+        return jsonify(context_response), 200
+
     except Exception as e:
-        return jsonify({"error": "Their was an Error Generating the Checking Code"}), 401
+        return jsonify({"error": "Their was an There was an error fetching your lessons"}), 401
 
     
