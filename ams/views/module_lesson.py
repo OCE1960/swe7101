@@ -13,9 +13,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from .. import db, jwt
 from ..models.ModuleLesson import ModuleLesson
 from ..models.Student import Student,students_schema
-from ..models.Module import Module
 from ..models.ModuleEnrollment import ModuleEnrollment
 from ..models.User import User
+from http import HTTPStatus
+
 
 
 bp = Blueprint('module-lessons', __name__, url_prefix='/api/v1/module-lessons')
@@ -57,10 +58,10 @@ def module_lesson_students(module_lesson_id):
             "students": students_schema.dump(student_list)
         }
         
-        return jsonify(response), 200
+        return jsonify(response), HTTPStatus.OK
 
     except Exception as e:
-        return jsonify({"error": "There was an issue fetching students for this lesson"}), 400
+        return jsonify({"error": "There was an issue fetching students for this lesson"}), HTTPStatus.BAD_REQUEST
 
 
 
