@@ -61,7 +61,7 @@ def bulk_attendance_registration(module_lesson_id ):
         staff = Staff.query.filter_by(user_id=user.id).first()
         module_lesson = ModuleLesson.query.get_or_404(module_lesson_id)
         
-        module = Module.query.join(Staff.staffs).filter(Staff.id == staff.id).filter_by(id=module_lesson.module_id).first()
+        module = Module.query.join(Staff.modules).filter(Staff.id == staff.id).filter_by(id=module_lesson.module_id).first()
 
         #a list of dictionaries containing student id and attendance status
         student_list = request.json.get('student_list', [])
