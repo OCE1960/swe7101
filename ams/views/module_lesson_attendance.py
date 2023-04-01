@@ -66,14 +66,26 @@ def bulk_attendance_registration(module_lesson_id ):
         #a list of dictionaries containing student id and attendance status
         student_list = request.json.get('student_list', [])
 
-        if module:
-            for student in student_list:
-                student_instance = Student.query.get_or_404(student["id"])
-                module_lesson_attendance =ModuleLessonAttendance(student_id=student_instance.id, module_lesson_id=module_lesson_id, attendance_status=student["attendance_status"], updated_by=staff.id)
-                module_lesson_attendance.save()
-            return jsonify({"msg": "Attendance Registration Successful"}),HTTPStatus.CREATED
+        attendance_status_codes = ["P", "A", "O", "N", "C"]
+        code_to_check = []
+
+        for code in student_list:
+            code_to_check.append(code["attendance_status"].upper())
+
+
+        if set(code_to_check).issubset(attendance_status_codes):
+            
+            if module:
+                for student in student_list:
+                    student_instance = Student.query.get_or_404(student["id"])
+                    module_lesson_attendance =ModuleLessonAttendance(student_id=student_instance.id, module_lesson_id=module_lesson_id, attendance_status=student["attendance_status"], updated_by=staff.id)
+                    module_lesson_attendance.save()
+                return jsonify({"msg": "Attendance Registration Successful"}),HTTPStatus.CREATED
+            else:
+                return jsonify({"msg": "Staff not assigned to this module"}),HTTPStatus.UNAUTHORIZED
+
         else:
-            return jsonify({"msg": "Staff not assigned to this module"}),HTTPStatus.UNAUTHORIZED
+             return jsonify({"msg": "Code not allowed"}),HTTPStatus.UNAUTHORIZED
 
 
     except Exception as e:
