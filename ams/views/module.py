@@ -35,5 +35,21 @@ def get_module_lessons(module_id):
         return jsonify(context)
     except Exception as e:
         return jsonify({"error": "Their was an Error fetching the Module Lesson"}), 401
+    
+    
+@bp.route("/lessons", methods=["GET"])
+@jwt_required()
+def generate_assigned_lessons(id):
+    try:
+        user_name = get_jwt_identity()
+        db.session.execute(db.select(User).where(User.username == user_name).where(User.is_staff == True)).scalar_one()
+        module_lesson = db.session.execute(db.select(ModuleLesson).filter_by(id=id)).scalar_one()
+        letters = string.ascii_uppercase
+        checking_code = ''.join(random.choice(letters) for i in range(6))
+        module_lesson.checking_code = checking_code
+        db.session.commit()
+        return jsonify({"code": checking_code}), 200
+    except Exception as e:
+        return jsonify({"error": "Their was an Error Generating the Checking Code"}), 401
 
     
