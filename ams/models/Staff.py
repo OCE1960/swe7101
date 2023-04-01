@@ -1,6 +1,8 @@
 from sqlalchemy import Identity
 from .. import db
 from .. import ma
+from . import Module
+from .Module_Staff_M2M import module_staff_m2m
 
 class Staff(db.Model):
     __tablename__ = 'staffs'
