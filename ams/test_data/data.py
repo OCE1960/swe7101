@@ -112,19 +112,6 @@ module_lesson_seed_data=[
 
 ]
 
-module_enrollment_seed_data=[
-    {''}
-]
-
-module_lesson_attendance_seed_data=[
-    {'attendance_status' : 'Present'},{'attendance_status' : 'Absent'},{'attendance_status' : 'Notified Absent'},{'attendance_status' : 'International'}
-]
-
-
-
-
-
-
 
 
 def seed_data():  
@@ -268,11 +255,11 @@ def seed_data():
     for modul in module_lessn:
         for sttud in students:
             if sttud.id %2==0:
-                moduleLessonAttendance = ModuleLessonAttendance(student_id=sttud.id, module_lesson_id=modul.id, attendance_status='Present')
+                moduleLessonAttendance = ModuleLessonAttendance(student_id=sttud.id, module_lesson_id=modul.id, attendance_status='P')
                 moduleLessonAttendance.save()
                 
             else:
-                moduleLessonAttendance = ModuleLessonAttendance(student_id=sttud.id, module_lesson_id=modul.id, attendance_status='Absent')
+                moduleLessonAttendance = ModuleLessonAttendance(student_id=sttud.id, module_lesson_id=modul.id, attendance_status='A')
                 moduleLessonAttendance.save()
                 
             
