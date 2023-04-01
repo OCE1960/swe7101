@@ -1,6 +1,8 @@
 from sqlalchemy import Identity
 from .. import db
 from .. import ma
+from . import Module
+from .Module_Staff_M2M import module_staff_m2m
 
 class Staff(db.Model):
     __tablename__ = 'staffs'
@@ -14,6 +16,7 @@ class Staff(db.Model):
     title = db.Column(db.String(120), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, index=True)
     attendances_marked = db.relationship('ModuleLessonAttendance', backref='staffs')
+    modules = db.relationship('Module', secondary=module_staff_m2m, backref='staffs')
     
     def __repr__(self) -> str:
        return f"Staff(id={self.id!r}, first_name{self.first_name!r}, middle_name={self.middle_name!r}, last_name={self.last_name!r})"

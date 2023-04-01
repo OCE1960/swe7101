@@ -16,7 +16,7 @@ class Module(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False, index=True)
     module_enrollments = db.relationship('ModuleEnrollment', backref='modules')
     module_lessons = db.relationship('ModuleLesson', backref='modules')
-    module_staff = db.relationship('Staff', secondary=module_staff_m2m, backref='staffs')
+    module_staff = db.relationship('Staff', secondary=module_staff_m2m, backref='modules')
 
     
     
