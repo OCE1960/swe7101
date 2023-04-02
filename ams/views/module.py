@@ -65,5 +65,8 @@ def get_staff_lessons():
 
     except Exception as e:
         return jsonify({"error": "Their was an There was an error fetching your lessons"}), 401
+    
+
+
 
     

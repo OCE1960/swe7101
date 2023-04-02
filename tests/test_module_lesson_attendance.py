@@ -46,5 +46,4 @@ def test_update_module_lesson_attendance(client, auth):
     assert update_attendance_response.status_code == 200
     assert "success" in update_attendance_response.json.keys()
     assert b"error" not in update_attendance_response.json
-
     
