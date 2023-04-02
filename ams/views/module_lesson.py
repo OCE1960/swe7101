@@ -12,6 +12,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from .. import db, jwt
 from ..models.ModuleLesson import ModuleLesson
+from ..models.Module import Module
+from ..models.Semester import Semester
 from ..models.Student import Student,students_schema
 from ..models.ModuleEnrollment import ModuleEnrollment
 from ..models.User import User
@@ -65,4 +67,28 @@ def module_lesson_students(module_lesson_id):
 
 
 
-    
+@bp.route("/<int:module_lesson_id>/", methods=["PUT"])
+@jwt_required()
+def update_module_lesson(module_lesson_id):
+    try:
+        user_name = get_jwt_identity()
+        db.session.execute(db.select(User).where(User.username == user_name).where(User.is_staff == True)).scalar_one()
+
+        module_lesson = db.session.execute(db.select(ModuleLesson).where(ModuleLesson.id == module_lesson_id)).scalar_one()
+        module = db.session.execute(db.select(Module).where(Module.id == module_lesson.module_id)).scalar_one()
+        semester = db.session.execute(db.select(Semester).where(Semester.id == module.semester_id)).scalar_one()
+        
+        if semester.is_active:
+            module_id = request.json.get('module_id')
+            venue = request.json.get('venue')
+            date = request.json.get('date')
+            time = request.json.get('time')
+            semester_id = request.json.get('semester)id')
+
+            return jsonify({"success": "Okay"}), 200
+        
+        else:
+            return jsonify({"error": "Changes for previous semester cannot be made"}), 401
+        
+    except Exception as e:
+        return jsonify(str(e)), 401
