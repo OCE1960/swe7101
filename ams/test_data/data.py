@@ -85,30 +85,30 @@ semester_seed_data=[
 ]
 
 module_lesson_seed_data=[
-    {'module_id':1, 'venue': "Barnee Lab", 'date': date(2023,3,11), 'time':time(6,47)},
-    {'module_id':1,'venue': "Barnee Lab", 'date': date(2023,3,12), 'time':time(6,47)},
-    {'module_id':1,'venue': "Barnee Lab", 'date': date(2023,3,13), 'time':time(6,47)},
-    {'module_id':1,'venue': "Barnee Lab", 'date': date(2023,4,14), 'time':time(6,47)},
+    {'module_id':1, 'venue': "Barnee Lab", 'title': "Introduction to the Module", 'date': date(2023,3,11), 'time':time(6,47)},
+    {'module_id':1,'venue': "Barnee Lab", 'title': "Unified Modelling Language (UML)", 'date': date(2023,3,12), 'time':time(6,47)},
+    {'module_id':1,'venue': "Barnee Lab", 'title': "File and Exception Handling", 'date': date(2023,3,13), 'time':time(6,47)},
+    {'module_id':1,'venue': "Barnee Lab", 'title': "Introduction to DBMS", 'date': date(2023,4,14), 'time':time(6,47)},
 
-    {'module_id':1,'venue': "Sinclair Lab", 'date': date(2023,4,11), 'time':time(6,47)},
-    {'module_id':1,'venue': "Sinclair Lab", 'date': date(2023,4,12), 'time':time(9,47)},
-    {'module_id':1,'venue': "Sinclair Lab", 'date': date(2023,4,13), 'time':time(9,47)},
-    {'module_id':1,'venue': "Sinclair Lab", 'date': date(2023,4,14), 'time':time(9,47)},
+    {'module_id':1,'venue': "Sinclair Lab",'title': "Introduction to DBMS", 'date': date(2023,4,11), 'time':time(6,47)},
+    {'module_id':1,'venue': "Sinclair Lab", 'title': "Agile Infrastructure & OOP Python Revision", 'date': date(2023,4,12), 'time':time(9,47)},
+    {'module_id':1,'venue': "Sinclair Lab", 'title': "Basic OOPs Concepts", 'date': date(2023,4,13), 'time':time(9,47)},
+    {'module_id':1,'venue': "Sinclair Lab", 'title': "Classes and Objects in OOPs", 'date': date(2023,4,14), 'time':time(9,47)},
 
-    {'module_id':1,'venue': "Van Neumann Lab", 'date': date(2023,4,11), 'time':time(12,47)},
-    {'module_id':1,'venue': "Van Neumann Lab", 'date': date(2023,4,12), 'time':time(12,47)},
-    {'module_id':2,'venue': "Van Neumann Lab", 'date': date(2023,4,13), 'time':time(12,47)},
-    {'module_id':2,'venue': "Van Neumann Lab", 'date': date(2023,4,14), 'time':time(12,47)},
+    {'module_id':1,'venue': "Van Neumann Lab", 'title': "Inheritance and Polymorphism A1", 'date': date(2023,4,11), 'time':time(12,47)},
+    {'module_id':1,'venue': "Van Neumann Lab", 'title': "Inheritance and Polymorphism A2", 'date': date(2023,4,12), 'time':time(12,47)},
+    {'module_id':2,'venue': "Van Neumann Lab", 'title': "Abstraction in OOPs", 'date': date(2023,4,13), 'time':time(12,47)},
+    {'module_id':2,'venue': "Van Neumann Lab", 'title': "Agile Principles & Methodologies", 'date': date(2023,4,14), 'time':time(12,47)},
 
-    {'module_id':2,'venue': "Albert Einstein Lab", 'date': date(2023,4,11), 'time':time(15,47)},
-    {'module_id':2,'venue': "Albert Einstein Lab", 'date': date(2023,4,12), 'time':time(15,47)},
-    {'module_id':2,'venue': "Albert Einstein Lab", 'date': date(2023,4,13), 'time':time(15,47)},
-    {'module_id':2,'venue': "Albert Einstein Lab", 'date': date(2023,4,14), 'time':time(15,47)},
+    {'module_id':2,'venue': "Albert Einstein Lab", 'title': "Other Agile frameworks", 'date': date(2023,4,11), 'time':time(15,47)},
+    {'module_id':2,'venue': "Albert Einstein Lab", 'title': "Scrum Framework", 'date': date(2023,4,12), 'time':time(15,47)},
+    {'module_id':2,'venue': "Albert Einstein Lab", 'title': "Requirements and User Stories", 'date': date(2023,4,13), 'time':time(15,47)},
+    {'module_id':2,'venue': "Albert Einstein Lab", 'title': "Tools for managing Agile Projects", 'date': date(2023,4,14), 'time':time(15,47)},
 
-    {'module_id':2,'venue': "Newton Lab", 'date': date(2023,4,11), 'time':time(18,47)},
-    {'module_id':2,'venue': "Newton Lab", 'date': date(2023,4,12), 'time':time(18,47)},
-    {'module_id':2,'venue': "Newton Lab", 'date': date(2023,4,13), 'time':time(18,47)},
-    {'module_id':2,'venue': "Newton Lab", 'date': date(2023,4,14), 'time':time(18,47)},
+    {'module_id':2,'venue': "Newton Lab", 'title': "Flask Development Resources", 'date': date(2023,4,11), 'time':time(18,47)},
+    {'module_id':2,'venue': "Newton Lab", 'title': "Software Design", 'date': date(2023,4,12), 'time':time(18,47)},
+    {'module_id':2,'venue': "Newton Lab", 'title': "Database Modelling, Normalisation and UML", 'date': date(2023,4,13), 'time':time(18,47)},
+    {'module_id':2,'venue': "Newton Lab", 'title': "Testing Strategies", 'date': date(2023,4,14), 'time':time(18,47)},
 
 ]
 
@@ -219,11 +219,11 @@ def seed_data():
 
     for lessons in module_lesson_seed_data:
         if lessons['module_id'] ==1:
-            module_lesson = ModuleLesson(venue=lessons['venue'], date=lessons['date'], time=lessons['time'], module_id=module1.id, semester_id=get_semester1.id)
+            module_lesson = ModuleLesson(title=lessons['title'], venue=lessons['venue'], date=lessons['date'], time=lessons['time'], module_id=module1.id, semester_id=get_semester1.id)
             module_lesson.save()
             
         if lessons['module_id'] ==2:
-            module_lesson = ModuleLesson(venue=lessons['venue'], date=lessons['date'], time=lessons['time'], module_id=module2.id, semester_id=get_semester1.id)
+            module_lesson = ModuleLesson(title=lessons['title'], venue=lessons['venue'], date=lessons['date'], time=lessons['time'], module_id=module2.id, semester_id=get_semester1.id)
             module_lesson.save()
             
 

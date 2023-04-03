@@ -19,6 +19,8 @@ from ..models.ModuleEnrollment import ModuleEnrollment
 from ..models.User import User
 from http import HTTPStatus
 
+from datetime import datetime
+
 
 
 bp = Blueprint('module-lessons', __name__, url_prefix='/api/v1/module-lessons')
@@ -77,15 +79,24 @@ def update_module_lesson(module_lesson_id):
         module_lesson = db.session.execute(db.select(ModuleLesson).where(ModuleLesson.id == module_lesson_id)).scalar_one()
         module = db.session.execute(db.select(Module).where(Module.id == module_lesson.module_id)).scalar_one()
         semester = db.session.execute(db.select(Semester).where(Semester.id == module.semester_id)).scalar_one()
-        
-        if semester.is_active:
-            module_id = request.json.get('module_id')
-            venue = request.json.get('venue')
-            date = request.json.get('date')
-            time = request.json.get('time')
-            semester_id = request.json.get('semester)id')
 
-            return jsonify({"success": "Okay"}), 200
+        if semester.is_active:
+            
+            venue = request.json.get('venue', " ")
+            date = request.json.get('date', " ")
+            time = request.json.get('time', " ")
+            title = request.json.get('title', " ")
+
+            date_object = datetime.strptime(date, '%m-%d-%Y').date()
+            time_object = datetime.strptime(time, '%H:%M:%S').time()
+    
+            module_lesson.venue=venue
+            module_lesson.date=date_object
+            module_lesson.time=time_object
+            module_lesson.title = title
+
+            db.session.commit()
+            return jsonify({"success": "Lesson successfully updated"}), 200
         
         else:
             return jsonify({"error": "Changes for previous semester cannot be made"}), 401
