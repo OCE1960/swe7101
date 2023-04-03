@@ -14,6 +14,9 @@ from ..models.Module import Module, modules_schema
 from ..models.ModuleEnrollment import ModuleEnrollment
 from ..models.User import User
 from ..models.Staff import Staff, staffs_schema
+from ..models.Semester import Semester
+
+
 
 
 bp = Blueprint('modules', __name__, url_prefix='/api/v1/modules')
@@ -36,6 +39,27 @@ def get_module_lessons(module_id):
         return jsonify(context)
     except Exception as e:
         return jsonify({"error": "Their was an Error fetching the Module Lesson"}), 401
+    
+@bp.route("/<int:module_id>/semester", methods=["GET"])
+@jwt_required()
+def get_module_semester_lessons(module_id):
+    try:
+        db.session.execute(db.select(Module).filter_by(id=module_id)).scalar_one()
+        user_name = get_jwt_identity()
+        user = db.session.execute(db.select(User).where(User.username == user_name)).scalar_one()
+        if user.is_student:
+            db.session.execute(db.select(ModuleEnrollment).filter_by(module_id=module_id, student_id=user.id)).scalar_one()
+
+        semester = db.session.execute(db.select(Semester).where(Semester.is_active == True)).scalar_one()
+
+        module_lessons = db.session.execute(db.select(ModuleLesson).filter_by(module_id = module_id, semester_id = semester.id )).scalars()
+        context = {
+            "success" : True,
+            "data" : module_lessons_schema.dump(module_lessons)
+        }
+        return jsonify(context)
+    except Exception as e:
+        return jsonify({"error": "No Semester not active"}), 401
     
     
 @bp.route("/lessons", methods=["GET"])
