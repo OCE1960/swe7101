@@ -81,11 +81,20 @@ def update_module_lesson(module_lesson_id):
         semester = db.session.execute(db.select(Semester).where(Semester.id == module.semester_id)).scalar_one()
 
         if semester.is_active:
-            
-            venue = request.json.get('venue', " ")
-            date = request.json.get('date', " ")
-            time = request.json.get('time', " ")
-            title = request.json.get('title', " ")
+
+            venue = request.json.get('venue', None)
+            date = request.json.get('date', None)
+            time = request.json.get('time', None)
+            title = request.json.get('title', None)
+       
+            if venue is None:
+                return jsonify({"error": "Provide value for venue"}), HTTPStatus.BAD_REQUEST
+            if date is None:
+                return jsonify({"error": "Provide value for date"}), HTTPStatus.BAD_REQUEST
+            if time is None:
+                return jsonify({"error": "Provide value for time"}), HTTPStatus.BAD_REQUEST
+            if title is None:
+                return jsonify({"error": "Provide value for title"}), HTTPStatus.BAD_REQUEST
 
             date_object = datetime.strptime(date, '%m-%d-%Y').date()
             time_object = datetime.strptime(time, '%H:%M:%S').time()
@@ -93,13 +102,13 @@ def update_module_lesson(module_lesson_id):
             module_lesson.venue=venue
             module_lesson.date=date_object
             module_lesson.time=time_object
-            module_lesson.title = title
+            module_lesson.title=title
 
             db.session.commit()
-            return jsonify({"success": "Lesson successfully updated"}), 200
+            return jsonify({"success": "Lesson successfully updated"}), HTTPStatus.OK
         
         else:
-            return jsonify({"error": "Changes for previous semester cannot be made"}), 401
+            return jsonify({"error": "Changes for previous semester cannot be made"}), HTTPStatus.UNAUTHORIZED
         
     except Exception as e:
-        return jsonify(str(e)), 401
+        return jsonify(str(e)), HTTPStatus.UNAUTHORIZED

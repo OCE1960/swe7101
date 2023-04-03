@@ -9,6 +9,7 @@ from ..models.ModuleLesson import ModuleLesson
 from ..models.ModuleEnrollment import ModuleEnrollment
 from ..models.ModuleLessonAttendance import ModuleLessonAttendance, module_lesson_attendances_schema
 from ..models.Module import Module
+from ..models.Semester import Semester
 from ..models.Student import Student
 from ..models.Staff import Staff
 from ..models.User import User
@@ -126,16 +127,26 @@ def get_module_lesson_attendance(module_lesson_id):
 @jwt_required()
 def update_module_lesson_attendance(module_lesson_id, student_id):
     try:
+        user_name = get_jwt_identity()
+        db.session.execute(db.select(User).where(User.username == user_name).where(User.is_staff == True)).scalar_one()
+
         attendance = db.session.execute(db.select(ModuleLessonAttendance).where(ModuleLessonAttendance.module_lesson_id == module_lesson_id).where(ModuleLessonAttendance.student_id == student_id)).scalar_one()
-        status = request.json.get("status", None)
-        valid_status_codes = ["P", "A", "O", "N", "C"]
-        if status not in valid_status_codes:
-            return jsonify({"invalid": "Invalid Status Code"}), 401
-        
-        attendance.attendance_status = status
-        db.session.commit()
-        
-        return jsonify({"success": "Attendance Updated Successfully"}), 200
+        module_lesson = db.session.execute(db.select(ModuleLesson).where(ModuleLesson.id == attendance.module_lesson_id)).scalar_one()
+        module = db.session.execute(db.select(Module).where(Module.id == module_lesson.module_id)).scalar_one()
+        semester = db.session.execute(db.select(Semester).where(Semester.id == module.semester_id)).scalar_one()
+
+        if semester.is_active:
+            status = request.json.get("status", None)
+            valid_status_codes = ["P", "A", "O", "N", "C"]
+            if status not in valid_status_codes:
+                return jsonify({"invalid": "Invalid Status Code"}), 401
+            
+            attendance.attendance_status = status
+            db.session.commit()
+            
+            return jsonify({"success": "Attendance Updated Successfully"}), 200
+        else:
+            return jsonify({"msg": "Amendment prior to current semester not allowed"}), 401
         
     except Exception as e:
         return jsonify(str(e)), 401
