@@ -42,7 +42,7 @@ def get_module_lessons(module_id):
     
 @bp.route("/<int:module_id>/semester", methods=["GET"])
 @jwt_required()
-def get_module_semester_lessons(module_id):
+def get_module_currrent_semester_lessons(module_id):
     try:
         db.session.execute(db.select(Module).filter_by(id=module_id)).scalar_one()
         user_name = get_jwt_identity()
@@ -57,7 +57,7 @@ def get_module_semester_lessons(module_id):
             "success" : True,
             "data" : module_lessons_schema.dump(module_lessons)
         }
-        return jsonify(context)
+        return jsonify(context), 200
     except Exception as e:
         return jsonify({"error": "No Semester not active"}), 401
     

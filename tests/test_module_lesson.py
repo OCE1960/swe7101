@@ -35,3 +35,11 @@ def test_update_module_lesson(client, auth):
     assert update_module_response.status_code == 200
     
 
+def test_module_current_semester_lesson(client, auth):
+    response = auth.login()
+    assert response.status_code == 200
+    token = "Bearer "+response.json["access_token"]
+    context = { "Authorization": token }
+    update_module_response = client.get('/api/v1/modules/1/semester', headers=context)
+    assert update_module_response.status_code == 200
+    
