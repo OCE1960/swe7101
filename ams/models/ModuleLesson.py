@@ -6,6 +6,7 @@ class ModuleLesson(db.Model):
     __tablename__ = 'module_lessons'
     
     id = db.Column(db.Integer, Identity(start=10, cycle=True), primary_key=True, index=True)
+    title = db.Column(db.Text(), nullable=False)
     venue = db.Column(db.String(120), nullable=False)
     date = db.Column(db.Date, nullable=False)
     time = db.Column(db.Time, nullable=False)
@@ -25,7 +26,7 @@ class ModuleLesson(db.Model):
 class ModuleLessonSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "module_id", "venue", "semester_id", "date", "time", "checking_code")
+        fields = ("id", "module_id", "venue", "title","semester_id", "date", "time", "checking_code")
 
 
 module_lesson_schema = ModuleLessonSchema()
