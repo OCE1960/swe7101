@@ -1,0 +1,15 @@
+ This gets the list of all users
+---
+tags:
+  - Authentication
+
+parameters:
+  - in: header
+    name: Authorization
+    required: true
+responses:
+  200:
+    description: Successfully
+
+  401:
+    description: Failed to login 
