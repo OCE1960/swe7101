@@ -2,7 +2,7 @@ template = {
     "swagger": "2.0",
     "info": {
         "title": "Attendance system API",
-        "description": "API for bookmarks",
+        "description": "API for ams ",
         "version": "1.0"
     },
     #"basePath": "/api/v1",  # base bash for blueprint registration

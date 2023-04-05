@@ -24,7 +24,7 @@ parameters:
 
 responses:
   200:
-    description: Successfully
+    description: Successful
 
   401:
-    description: Failed to login 
+    description: Failed to login, Unauthorized 

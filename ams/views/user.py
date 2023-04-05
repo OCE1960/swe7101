@@ -58,6 +58,7 @@ def users():
         return jsonify(e.__repr__()), 401
     
 @bp.route("/logout", methods=["POST"])
+@swag_from("../../docs/auth/logout.yaml")
 def logout():
     response = jsonify({"msg": "logout successful"})
     unset_jwt_cookies(response)
