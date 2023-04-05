@@ -1,0 +1,30 @@
+ Login 
+---
+tags:
+  - Authentication
+
+parameters:
+  - name: body
+    description: The body should contain the username and password
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - "username"
+        - "password"
+      properties:
+        username:
+          type: "string"
+        password:
+          type: "string"
+          format: password
+          example: "********"
+  
+
+responses:
+  200:
+    description: Successfully
+
+  401:
+    description: Failed to login 
