@@ -17,12 +17,17 @@ from ..models.Staff import Staff, staffs_schema
 from ..models.Semester import Semester
 
 
+from flasgger import Swagger, swag_from
+
+
+
 
 
 bp = Blueprint('modules', __name__, url_prefix='/api/v1/modules')
     
 @bp.route("/<int:module_id>", methods=["GET"])
 @jwt_required()
+@swag_from("../../docs/module/module_lesson.yaml")
 def get_module_lessons(module_id):
     try:
         db.session.execute(db.select(Module).filter_by(id=module_id)).scalar_one()
