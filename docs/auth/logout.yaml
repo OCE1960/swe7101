@@ -1,0 +1,12 @@
+ Logout
+---
+tags:
+  - Authentication
+  
+
+responses:
+  200:
+    description: Successful
+
+  400:
+    description: Bad Request, User was not logged in

@@ -6,6 +6,10 @@ from flask_marshmallow import Marshmallow
 import click
 from flask.cli import with_appcontext
 
+from flasgger import Swagger, swag_from
+from ams.config.swagger import template, swagger_config
+
+
 
 db = SQLAlchemy()
 
@@ -23,9 +27,15 @@ def create_app():
     
     # Setup the Flask-JWT-Extended extension
     app.config["JWT_SECRET_KEY"] = "secret"
+
+    app.config['SWAGGER']= {
+                'title':"Test API",
+                'uiversion': 3
+            }
     
     
-   
+    Swagger(app,config=swagger_config,template=template )
+
     db.init_app(app)
     
     ma.init_app(app)
@@ -59,10 +69,6 @@ def create_app():
     with app.app_context():
         db.create_all()
               
-    # a simple page that says hello
-    @app.route('/')
-    def hello():
-        return 'Hello, World!'
     
     #this adds the custom command to app
     app.cli.add_command(seed_data)

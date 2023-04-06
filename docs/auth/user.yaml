@@ -1,0 +1,25 @@
+ This gets a specific user by its id
+---
+tags:
+  - Authentication
+
+parameters:
+  - in: header
+    name: Authorization
+    required: true
+
+  - name: id
+    description: The id should be placed here
+    in: path
+    required: true
+    schema:
+      type: integer
+  
+  
+
+responses:
+  200:
+    description: Successfully
+
+  401:
+    description: Failed to login 
