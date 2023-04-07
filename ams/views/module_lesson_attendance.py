@@ -14,13 +14,14 @@ from ..models.Student import Student
 from ..models.Staff import Staff
 from ..models.User import User
 from http import HTTPStatus
-
+from flasgger import Swagger, swag_from
 
 bp = Blueprint('module-lessons-attendance', __name__, url_prefix='/api/v1/module-lessons-attendance')
 
 
 @bp.route("/<int:module_lesson_id>", methods=["POST"])
 @jwt_required()
+@swag_from("../../docs/attendance/student_self_attendance_registration.yaml")
 def student_self_attendance_registration(module_lesson_id ):
     try:
         student_identity = get_jwt_identity()
@@ -56,6 +57,7 @@ def student_self_attendance_registration(module_lesson_id ):
 
 @bp.route("/staff/<int:module_lesson_id>", methods=["POST"])
 @jwt_required()
+@swag_from("../../docs/attendance/bulk_attendance_registration.yaml")
 def bulk_attendance_registration(module_lesson_id ):
     try:
         staff_identity = get_jwt_identity()
@@ -97,6 +99,7 @@ def bulk_attendance_registration(module_lesson_id ):
 
 @bp.route("/<int:module_lesson_id>", methods=["GET"])
 @jwt_required()
+@swag_from("../../docs/attendance/get_module_lesson_attendance.yaml")
 def get_module_lesson_attendance(module_lesson_id):
     try:
         attendances = db.session.execute(db.select(ModuleLessonAttendance).filter_by(module_lesson_id=module_lesson_id)).scalars()
@@ -125,6 +128,7 @@ def get_module_lesson_attendance(module_lesson_id):
     
 @bp.route("/<int:module_lesson_id>/students/<int:student_id>", methods=["PUT"])
 @jwt_required()
+@swag_from("../../docs/attendance/update_module_lesson_attendance.yaml")
 def update_module_lesson_attendance(module_lesson_id, student_id):
     try:
         user_name = get_jwt_identity()

@@ -1,0 +1,18 @@
+ This  will let staff bulk register attendance for all the students by module_lesson_id
+---
+tags:
+  - Attendance
+
+parameters:
+  - name: module_lesson_id
+    description: The module_lesson_id should be placed here
+    in: path
+    required: true
+    schema:
+      type: integer
+
+responses:
+  200:
+    description: Attendance Registration Successful
+  401:
+    description: There was an error registering students

@@ -1,0 +1,25 @@
+ This  will update the lesson attendance of a student by student_id and module_id
+---
+tags:
+  - Attendance
+
+parameters:
+  - name: module_lesson_id
+    description: The module_lesson_id should be placed here
+    in: path
+    required: true
+    schema:
+      type: integer
+  
+  - name: student_id
+    description: student_id should be placed here
+    in: path
+    required: true
+    schema:
+      type: integer
+
+responses:
+  200:
+    description: Attendance Updated Successfully
+  401:
+    description: Amendment prior to current semester not allowed
