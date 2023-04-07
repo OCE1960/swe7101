@@ -1,17 +1,15 @@
- This gets a specific module_lesson by its id
+ This gets a specific module_lesson_semester by module id
 ---
 tags:
   - Module
 
 parameters:
   - name: module_id
-    description: The module_id should be placed here
+    description: The module_lesson_id should be placed here
     in: path
     required: true
     schema:
       type: integer
-  
-  
 
 responses:
   200:

@@ -20,13 +20,14 @@ from ..models.User import User
 from http import HTTPStatus
 
 from datetime import datetime
-
+from flasgger import Swagger, swag_from
 
 
 bp = Blueprint('module-lessons', __name__, url_prefix='/api/v1/module-lessons')
     
 @bp.route("/<id>", methods=["POST"])
 @jwt_required()
+@swag_from("../../docs/lesson/generate_checkin_code.yaml")
 def generate_checkin_code(id):
     try:
         user_name = get_jwt_identity()
@@ -44,6 +45,7 @@ def generate_checkin_code(id):
 
 @bp.route("/students/<int:module_lesson_id>", methods=["GET"])
 @jwt_required()
+@swag_from("../../docs/lesson/module_lesson_students.yaml")
 def module_lesson_students(module_lesson_id):
     try:
         user_name = get_jwt_identity()
@@ -71,6 +73,7 @@ def module_lesson_students(module_lesson_id):
 
 @bp.route("/<int:module_lesson_id>/", methods=["PUT"])
 @jwt_required()
+@swag_from("../../docs/lesson/update_module_lesson.yaml")
 def update_module_lesson(module_lesson_id):
     try:
         user_name = get_jwt_identity()

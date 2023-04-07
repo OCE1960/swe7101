@@ -47,7 +47,8 @@ def get_module_lessons(module_id):
     
 @bp.route("/<int:module_id>/semester", methods=["GET"])
 @jwt_required()
-def get_module_currrent_semester_lessons(module_id):
+@swag_from("../../docs/module/module_lesson_semester.yaml")
+def get_module_currrent_semester_lessons(module_id): 
     try:
         db.session.execute(db.select(Module).filter_by(id=module_id)).scalar_one()
         user_name = get_jwt_identity()
@@ -69,6 +70,7 @@ def get_module_currrent_semester_lessons(module_id):
     
 @bp.route("/lessons", methods=["GET"])
 @jwt_required()
+@swag_from("../../docs/module/staff_lessons.yaml")
 def get_staff_lessons():
     try:
         user_name = get_jwt_identity()

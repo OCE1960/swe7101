@@ -1,0 +1,12 @@
+ This gets all the lessons of the staff  
+---
+tags:
+  - Module
+
+
+responses:
+  200:
+    description: Successfully
+
+  401:
+    description: Failed to login 
