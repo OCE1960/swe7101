@@ -1,0 +1,19 @@
+ This  will generate the checkin code by id.
+---
+tags:
+  - Lesson
+
+parameters:
+  - name: id
+    description: The id should be placed here
+    in: path
+    required: true
+    schema:
+      type: integer
+
+responses:
+  200:
+    description: The checkin Code
+
+  401:
+    description: Their was an Error Generating the Checking Code

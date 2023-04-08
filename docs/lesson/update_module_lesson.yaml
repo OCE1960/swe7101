@@ -1,0 +1,19 @@
+ This  will update all the module lessons by module_lesson_id
+---
+tags:
+  - Lesson
+
+parameters:
+  - name: module_lesson_id
+    description: The module_lesson_id should be placed here
+    in: path
+    required: true
+    schema:
+      type: integer
+
+responses:
+  200:
+    description: Lesson successfully updated
+
+  401:
+    description: Changes for previous semester cannot be made

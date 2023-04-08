@@ -1,0 +1,19 @@
+ This  will get all the students checked-in by the module_lesson_id. 
+---
+tags:
+  - Lesson
+
+parameters:
+  - name: module_lesson_id
+    description: The module_lesson_id should be placed here
+    in: path
+    required: true
+    schema:
+      type: integer
+
+responses:
+  200:
+    description: Number of students checked-in
+
+  401:
+    description: There was an issue fetching students for this lesson
