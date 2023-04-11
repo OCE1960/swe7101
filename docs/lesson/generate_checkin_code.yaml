@@ -4,6 +4,9 @@ tags:
   - Lesson
 
 parameters:
+  - in: header
+    name: Authorization
+    required: true
   - name: id
     description: The id should be placed here
     in: path

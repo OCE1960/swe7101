@@ -4,6 +4,9 @@ tags:
   - Module
 
 parameters:
+  - in: header
+    name: Authorization
+    required: true
   - name: module_id
     description: The module_id should be placed here
     in: path
