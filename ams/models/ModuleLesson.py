@@ -28,6 +28,12 @@ class ModuleLessonSchema(ma.Schema):
         # Fields to expose
         fields = ("id", "module_id", "venue", "title","semester_id", "date", "time", "checking_code")
 
+class ModuleLessonDetailsSchema(ma.Schema):
+    class Meta:
+        # Fields to expose
+        fields = ( "title", "date","time",)
+
 
 module_lesson_schema = ModuleLessonSchema()
 module_lessons_schema = ModuleLessonSchema(many=True)
+module_lesson_details_schema = ModuleLessonDetailsSchema()

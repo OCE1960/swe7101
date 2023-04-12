@@ -3,9 +3,10 @@ from flask import jsonify
 from flask import request
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
+from sqlalchemy import or_
 
 from .. import db
-from ..models.ModuleLesson import ModuleLesson
+from ..models.ModuleLesson import ModuleLesson, module_lesson_details_schema
 from ..models.ModuleEnrollment import ModuleEnrollment
 from ..models.ModuleLessonAttendance import ModuleLessonAttendance, module_lesson_attendances_schema
 from ..models.Module import Module
@@ -157,3 +158,54 @@ def update_module_lesson_attendance(module_lesson_id, student_id):
 
 
 
+@bp.route("/student-attendance", methods=["GET"])
+@jwt_required()
+@swag_from("../../docs/attendance/student_attendance_record.yaml")
+def student_attendance_record():
+    try:
+        student_identity = get_jwt_identity()
+        user = User.query.filter_by(username=student_identity).first()
+        student = Student.query.filter_by(user_id=user.id).first()
+        student_module = ModuleEnrollment.query.filter_by(student_id=student.id)
+        student_module_list = []
+
+        for module_id in student_module:
+            student_module_list.append(module_id.module_id)
+
+        module_lesson = db.session.query(ModuleLesson).filter(or_(ModuleLesson.module_id==student_module_list[0], ModuleLesson.module_id==student_module_list[1]))
+        module_attendance = db.session.query(ModuleLessonAttendance).filter(ModuleLessonAttendance.student_id==student.id)
+
+        module_lesson_id_list = []
+        module_attendance_id_list = []
+
+        for id in module_lesson:
+            module_lesson_id_list.append(id.id)
+        
+        for id in module_attendance:
+            module_attendance_id_list.append(id.module_lesson_id)
+        
+
+        data = []
+        for id in module_lesson_id_list:
+            module_lesson_details = db.session.query(ModuleLesson).filter(ModuleLesson.id==id).first()
+            if id in module_attendance_id_list:
+                
+                attendance = {
+                    "status" : "Present",
+                    "summary" : "Checkin Validated",
+                    "lesson" : module_lesson_details_schema.dump(module_lesson_details)
+                }
+                data.append(attendance)
+            else:
+                attendance = {
+                    "status" : "Absent",
+                    "summary" : "Checkin Not Validated",
+                    "lesson_details" : module_lesson_details_schema.dump(module_lesson_details)
+                }
+                data.append(attendance)
+        print(data)
+        return jsonify(data), HTTPStatus.OK
+        
+    
+    except Exception as e:
+        return jsonify({"error": "Something went wrong"}), HTTPStatus.UNAUTHORIZED
