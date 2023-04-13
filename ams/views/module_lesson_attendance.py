@@ -3,7 +3,7 @@ from flask import jsonify
 from flask import request
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 
 from .. import db
 from ..models.ModuleLesson import ModuleLesson, module_lesson_details_schema
@@ -172,7 +172,7 @@ def student_attendance_record():
         for module_id in student_module:
             student_module_list.append(module_id.module_id)
 
-        module_lesson = db.session.query(ModuleLesson).filter(or_(ModuleLesson.module_id==student_module_list[0], ModuleLesson.module_id==student_module_list[1]))
+        module_lesson = db.session.query(ModuleLesson).filter(or_(ModuleLesson.module_id==student_module_list[0], ModuleLesson.module_id==student_module_list[1])).order_by(ModuleLesson.date)
         module_attendance = db.session.query(ModuleLessonAttendance).filter(ModuleLessonAttendance.student_id==student.id)
 
         module_lesson_id_list = []
@@ -193,7 +193,7 @@ def student_attendance_record():
                 attendance = {
                     "status" : "Present",
                     "summary" : "Checkin Validated",
-                    "lesson" : module_lesson_details_schema.dump(module_lesson_details)
+                    "lesson_details" : module_lesson_details_schema.dump(module_lesson_details)
                 }
                 data.append(attendance)
             else:
@@ -203,7 +203,6 @@ def student_attendance_record():
                     "lesson_details" : module_lesson_details_schema.dump(module_lesson_details)
                 }
                 data.append(attendance)
-        print(data)
         return jsonify(data), HTTPStatus.OK
         
     
