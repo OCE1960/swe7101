@@ -16,6 +16,7 @@ from ..models.Staff import Staff
 from ..models.User import User
 from http import HTTPStatus
 from flasgger import Swagger, swag_from
+from datetime import date, time, timedelta, datetime
 
 bp = Blueprint('module-lessons-attendance', __name__, url_prefix='/api/v1/module-lessons-attendance')
 
@@ -30,28 +31,48 @@ def student_self_attendance_registration(module_lesson_id ):
         user = User.query.filter_by(username=student_identity).first()
         student = Student.query.filter_by(user_id=user.id).first()
         module_lesson = ModuleLesson.query.get_or_404(module_lesson_id)
-       
+        
+        lesson_time_plus_one_hour = (datetime.combine(date.today(), module_lesson.time) + timedelta(hours=1)).time()
+
+        current_date = date.today()
+        now = datetime.now()
+        current = now.strftime("%H:%M:%S") 
+        current_time = datetime.strptime(current, "%H:%M:%S").time()
+
+
         if checkin_code is not None:
 
-            """
-                Check if this particular student is enrolled for this particular module
-            """
-            module_enrollment = ModuleEnrollment.query.filter_by(module_id=module_lesson.module_id, student_id=student.id).first()
-            if module_enrollment:
+            #To ensure student can't checkin an hour after lecture starts
+            if module_lesson.date == current_date and lesson_time_plus_one_hour > current_time: 
+
                 """
-                Validation of the checkin Code
+                    Check if this particular student is enrolled for this particular module
                 """
-                if module_lesson.checking_code == checkin_code: 
-                    moduleLesson_attendance = ModuleLessonAttendance(student_id=student.id, module_lesson_id=module_lesson.id, attendance_status='P')
-                    moduleLesson_attendance.save()
-                    return jsonify({"msg": "Attendance Registration Successful"}),HTTPStatus.CREATED
+                module_enrollment = ModuleEnrollment.query.filter_by(module_id=module_lesson.module_id, student_id=student.id).first()
+                if module_enrollment:
+                    
+                    """
+                    Validation of the checkin Code
+                    """
+                    if module_lesson.checking_code == checkin_code:
+                        """
+                        Check if student has already checked in
+                        """
+                        attendace = ModuleLessonAttendance.query.filter_by(student_id=student.id, module_lesson_id=module_lesson_id).first()
+                        if not attendace: 
+                            moduleLesson_attendance = ModuleLessonAttendance(student_id=student.id, module_lesson_id=module_lesson.id, attendance_status='P')
+                            moduleLesson_attendance.save()
+                            return jsonify({"msg": "Attendance Registration Successful"}),HTTPStatus.CREATED
+                        return jsonify({"error": "You have already checked in for this lesson"}), HTTPStatus.NOT_ACCEPTABLE
+                    else:
+                        return jsonify({"error": "Invalid Checkin Code"}), HTTPStatus.NOT_ACCEPTABLE
                 else:
-                    return jsonify({"error": "Invalid Checkin Code"}), HTTPStatus.NOT_ACCEPTABLE
+                    return jsonify({"error": "Student not enrolled"}), HTTPStatus.BAD_REQUEST
             else:
-                return jsonify({"error": "Student not enrolled"}), HTTPStatus.BAD_REQUEST
+                return jsonify({"error": "You are late, you can no longer checkin"}), HTTPStatus.UNAUTHORIZED
         else:
             return jsonify({"error": "Provide Checkin code"}), HTTPStatus.BAD_REQUEST
-        
+    
     except Exception as e:
         return jsonify({"error": "Something went wrong"}), HTTPStatus.UNAUTHORIZED
     
