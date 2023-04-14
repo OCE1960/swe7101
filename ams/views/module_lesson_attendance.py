@@ -35,6 +35,8 @@ def student_self_attendance_registration(module_lesson_id ):
         lesson_time_plus_one_hour = (datetime.combine(date.today(), module_lesson.time) + timedelta(hours=1)).time()
 
         current_date = date.today()
+        xx = current_date.strftime("%d-%m-%Y")
+        print(f"date string {xx}")
         now = datetime.now()
         current = now.strftime("%H:%M:%S") 
         current_time = datetime.strptime(current, "%H:%M:%S").time()
@@ -115,7 +117,7 @@ def bulk_attendance_registration(module_lesson_id ):
 
 
     except Exception as e:
-        return jsonify({"error": "There was an error registering students"}), HTTPStatus.BAD_REQUEST
+        return jsonify({"error": "There was an error registering students"}), HTTPStatus.NO_CONTENT
     
         
 

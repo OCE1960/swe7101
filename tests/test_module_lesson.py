@@ -1,3 +1,5 @@
+from datetime import date, datetime
+
 def test_generate_checkin_code(client, auth):
     response = auth.login()
     assert response.status_code == 200
@@ -24,10 +26,14 @@ def test_update_module_lesson(client, auth):
     response = auth.login()
     assert response.status_code == 200
     token = "Bearer "+response.json["access_token"]
+    date_now = date.today()
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    current_date =  date_now.strftime("%m-%d-%Y")
     data = {	
 	"venue": "Barnee/ Sinclair/Van neumann lab",
-	"date": "04-22-2023",
-	"time": "15:55:26",
+	"date": current_date,
+	"time": current_time,
 	"title": "Agile Principles & Methodologies"
 }
     context = { "Authorization": token }
