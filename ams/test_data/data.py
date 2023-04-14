@@ -115,7 +115,6 @@ module_lesson_seed_data=[
 
 
 def seed_data():  
-    print("hey")
 
     for user_staff in user_staff_data:
        
