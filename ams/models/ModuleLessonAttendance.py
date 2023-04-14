@@ -9,7 +9,7 @@ class ModuleLessonAttendance(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False, index=True)
     module_lesson_id = db.Column(db.Integer, db.ForeignKey('module_lessons.id'), nullable=False, index=True)
     attendance_status = db.Column(db.String(50), nullable=False)
-    updated_by = db.Column(db.Integer, db.ForeignKey('staffs.id'), nullable=True)
+    updated_by = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     
     
     def __repr__(self) -> str:

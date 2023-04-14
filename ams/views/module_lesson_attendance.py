@@ -35,8 +35,6 @@ def student_self_attendance_registration(module_lesson_id ):
         lesson_time_plus_one_hour = (datetime.combine(date.today(), module_lesson.time) + timedelta(hours=1)).time()
 
         current_date = date.today()
-        xx = current_date.strftime("%d-%m-%Y")
-        print(f"date string {xx}")
         now = datetime.now()
         current = now.strftime("%H:%M:%S") 
         current_time = datetime.strptime(current, "%H:%M:%S").time()
@@ -60,12 +58,24 @@ def student_self_attendance_registration(module_lesson_id ):
                         """
                         Check if student has already checked in
                         """
-                        attendace = ModuleLessonAttendance.query.filter_by(student_id=student.id, module_lesson_id=module_lesson_id).first()
-                        if not attendace: 
-                            moduleLesson_attendance = ModuleLessonAttendance(student_id=student.id, module_lesson_id=module_lesson.id, attendance_status='P')
+                        attendance = ModuleLessonAttendance.query.filter_by(student_id=student.id, module_lesson_id=module_lesson_id).first()
+                        if attendance:
+                            if attendance.updated_by is None: 
+                                attendance.student_id = student.id
+                                attendance.module_lesson_id = module_lesson.id
+                                attendance.attendance_status = "P"
+                                attendance.updated_by = user.id
+                                attendance.save()
+                                return jsonify({"msg": "Attendance Registration Successful"}),HTTPStatus.CREATED
+                            else:
+                                return jsonify({"error": "You have already checked in for this lesson"}),HTTPStatus.NOT_ACCEPTABLE
+                            
+                            
+                        else:
+                            moduleLesson_attendance = ModuleLessonAttendance(student_id=student.id, module_lesson_id=module_lesson.id, attendance_status='P', updated_by = user.id)
                             moduleLesson_attendance.save()
                             return jsonify({"msg": "Attendance Registration Successful"}),HTTPStatus.CREATED
-                        return jsonify({"error": "You have already checked in for this lesson"}), HTTPStatus.NOT_ACCEPTABLE
+                        
                     else:
                         return jsonify({"error": "Invalid Checkin Code"}), HTTPStatus.NOT_ACCEPTABLE
                 else:
@@ -74,7 +84,7 @@ def student_self_attendance_registration(module_lesson_id ):
                 return jsonify({"error": "You are late, you can no longer checkin"}), HTTPStatus.UNAUTHORIZED
         else:
             return jsonify({"error": "Provide Checkin code"}), HTTPStatus.BAD_REQUEST
-    
+        
     except Exception as e:
         return jsonify({"error": "Something went wrong"}), HTTPStatus.UNAUTHORIZED
     
@@ -106,7 +116,7 @@ def bulk_attendance_registration(module_lesson_id ):
             if module:
                 for student in student_list:
                     student_instance = Student.query.get_or_404(student["student_id"])
-                    module_lesson_attendance =ModuleLessonAttendance(student_id=student_instance.id, module_lesson_id=module_lesson_id, attendance_status=student["attendance_status"].upper(), updated_by=staff.id)
+                    module_lesson_attendance =ModuleLessonAttendance(student_id=student_instance.id, module_lesson_id=module_lesson_id, attendance_status=student["attendance_status"].upper(), updated_by=user.id)
                     module_lesson_attendance.save()
                 return jsonify({"msg": "Attendance Registration Successful"}),HTTPStatus.CREATED
             else:
