@@ -13,6 +13,26 @@ parameters:
     required: true
     schema:
       type: integer
+  - name: body
+    description: Here each student id and their corresponding attendance status should be entered as a dictionary inside the list
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        student_list:
+          type: array
+          items:
+            type: object
+            properties:
+              student_id:
+                type: integer
+                required: true
+              attendance_status:
+                type: string
+                required: true
+              
+
 
 responses:
   200:

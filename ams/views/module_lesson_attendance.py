@@ -103,8 +103,8 @@ def bulk_attendance_registration(module_lesson_id ):
             
             if module:
                 for student in student_list:
-                    student_instance = Student.query.get_or_404(student["id"])
-                    module_lesson_attendance =ModuleLessonAttendance(student_id=student_instance.id, module_lesson_id=module_lesson_id, attendance_status=student["attendance_status"], updated_by=staff.id)
+                    student_instance = Student.query.get_or_404(student["student_id"])
+                    module_lesson_attendance =ModuleLessonAttendance(student_id=student_instance.id, module_lesson_id=module_lesson_id, attendance_status=student["attendance_status"].upper(), updated_by=staff.id)
                     module_lesson_attendance.save()
                 return jsonify({"msg": "Attendance Registration Successful"}),HTTPStatus.CREATED
             else:

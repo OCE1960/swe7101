@@ -1,4 +1,4 @@
- This  will get all the students checked-in by the module_lesson_id. 
+ This  will get all the students enrolled in a particular module_lesson. 
 ---
 tags:
   - Lesson
@@ -9,7 +9,7 @@ parameters:
     name: Authorization
     required: true
   - name: module_lesson_id
-    description: The module_lesson_id should be placed here
+    description: The module lesson id should be placed here
     in: path
     required: true
     schema:
@@ -17,7 +17,7 @@ parameters:
 
 responses:
   200:
-    description: Number of students checked-in
+    description: Number of students Enrolled
 
   401:
     description: There was an issue fetching students for this lesson

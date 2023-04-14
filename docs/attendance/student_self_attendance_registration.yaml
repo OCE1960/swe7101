@@ -13,6 +13,17 @@ parameters:
     required: true
     schema:
       type: integer
+  - name: body
+    description: The body should contain the checkin code
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        checkin_code:
+          type: string
+        
+
 
 responses:
   200:
