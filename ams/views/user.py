@@ -2,15 +2,14 @@ from flask import Blueprint
 from flask import jsonify
 from flask import request
 from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import unset_jwt_cookies
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 
-from .. import db, jwt
+from .. import db
 from ..models.User import User, user_schema, users_schema
 
-from flasgger import Swagger, swag_from
+from flasgger import swag_from
 
 
 bp = Blueprint('auth', __name__, url_prefix='/api/v1/auth')

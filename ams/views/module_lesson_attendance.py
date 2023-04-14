@@ -3,20 +3,20 @@ from flask import jsonify
 from flask import request
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
-from sqlalchemy import or_, and_
+from sqlalchemy import or_
 
 from .. import db
 from ..models.ModuleLesson import ModuleLesson, module_lesson_details_schema
 from ..models.ModuleEnrollment import ModuleEnrollment
-from ..models.ModuleLessonAttendance import ModuleLessonAttendance, module_lesson_attendances_schema
+from ..models.ModuleLessonAttendance import ModuleLessonAttendance
 from ..models.Module import Module
 from ..models.Semester import Semester
 from ..models.Student import Student
 from ..models.Staff import Staff
 from ..models.User import User
 from http import HTTPStatus
-from flasgger import Swagger, swag_from
-from datetime import date, time, timedelta, datetime
+from flasgger import  swag_from
+from datetime import date, timedelta, datetime
 
 bp = Blueprint('module-lessons-attendance', __name__, url_prefix='/api/v1/module-lessons-attendance')
 
@@ -127,7 +127,7 @@ def bulk_attendance_registration(module_lesson_id ):
 
 
     except Exception as e:
-        return jsonify({"error": "There was an error registering students"}), HTTPStatus.NO_CONTENT
+        return jsonify({"error": "There was an error registering students"}), HTTPStatus.BAD_REQUEST
     
         
 

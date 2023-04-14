@@ -4,20 +4,19 @@ from datetime import date
 
 from flask import Blueprint
 from flask import jsonify
-from flask import request
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 
-from .. import db, jwt
+from .. import db
 from ..models.ModuleLesson import ModuleLesson, module_lessons_schema
-from ..models.Module import Module, modules_schema
+from ..models.Module import Module
 from ..models.ModuleEnrollment import ModuleEnrollment
 from ..models.User import User
-from ..models.Staff import Staff, staffs_schema
+from ..models.Staff import Staff
 from ..models.Semester import Semester
 
 
-from flasgger import Swagger, swag_from
+from flasgger import  swag_from
 
 
 
