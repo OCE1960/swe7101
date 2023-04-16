@@ -1,0 +1,16 @@
+ This  will get the attendance history for logged in student
+---
+tags:
+  - Attendance
+
+parameters:
+  - in: header
+    name: Authorization
+    required: true
+  
+
+responses:
+  200:
+    description: Your attendance history
+  401:
+    description: Unauthorized User

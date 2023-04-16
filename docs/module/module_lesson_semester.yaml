@@ -1,0 +1,22 @@
+ This will retrieve the module lessons of a particular module for the current semester
+---
+tags:
+  - Module
+
+parameters:
+  - in: header
+    name: Authorization
+    required: true
+  - name: module_id
+    description: The module_lesson_id should be placed here
+    in: path
+    required: true
+    schema:
+      type: integer
+
+responses:
+  200:
+    description: Successfully
+
+  401:
+    description: Failed to login 

@@ -1,0 +1,44 @@
+ This  will update all the module lessons by module_lesson_id
+---
+tags:
+  - Lesson
+
+parameters:
+  - in: header
+    name: Authorization
+    required: true
+  - name: module_lesson_id
+    description: The module_lesson_id should be placed here
+    in: path
+    required: true
+    schema:
+      type: integer
+  - name: body
+    description: The body should contain the venue, date, time and title
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - "venue"
+        - "date"
+        - "time"
+        - "title"
+      properties:
+        title:
+          type: "string"
+        venue:
+          type: "string"
+        date:
+          type: "string"
+          example: "04-22-2023"
+        time:
+          type: "string"
+          example: "15:55:00"
+
+responses:
+  200:
+    description: Lesson successfully updated
+
+  401:
+    description: Changes for previous semester cannot be made

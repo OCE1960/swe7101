@@ -20,7 +20,7 @@ def test_bulk_attendance_registration(client, auth):
     context = { "Authorization": token }
 
     data ={
-        "student_list" : [{"id":1, "attendance_status": "P"}, {"id":2, "attendance_status": "P"}, {"id":3, "attendance_status": "O"}]
+        "student_list" : [{"student_id":1, "attendance_status": "P"}, {"student_id":2, "attendance_status": "P"}, {"student_id":3, "attendance_status": "O"}]
     }
     checking_code_response = client.post('/api/v1/module-lessons-attendance/staff/1', json=data, headers=context)
     assert checking_code_response.status_code == 201

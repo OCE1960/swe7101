@@ -1,0 +1,32 @@
+ This  will help student self register himself  by module_lesson_id
+---
+tags:
+  - Attendance
+
+parameters:
+  - in: header
+    name: Authorization
+    required: true
+  - name: module_lesson_id
+    description: The module_lesson_id should be placed here
+    in: path
+    required: true
+    schema:
+      type: integer
+  - name: body
+    description: The body should contain the checkin code
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        checkin_code:
+          type: string
+        
+
+
+responses:
+  200:
+    description: Attendance Registration Successful
+  401:
+    description: Something went wrong

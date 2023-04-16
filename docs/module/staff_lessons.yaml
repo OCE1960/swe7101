@@ -1,0 +1,16 @@
+ This gets all the lessons of the staff  
+---
+tags:
+  - Module
+
+parameters:
+  - in: header
+    name: Authorization
+    required: true
+    
+responses:
+  200:
+    description: Successfully
+
+  401:
+    description: Failed to login 

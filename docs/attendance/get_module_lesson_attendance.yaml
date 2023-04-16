@@ -1,0 +1,21 @@
+ This  will get attendance records of the students by module_lesson_id
+---
+tags:
+  - Attendance
+
+parameters:
+  - in: header
+    name: Authorization
+    required: true
+  - name: module_lesson_id
+    description: The module_lesson_id should be placed here
+    in: path
+    required: true
+    schema:
+      type: integer
+
+responses:
+  200:
+    description: Attendance Records here!
+  401:
+    description: No Attendance for this Lesson

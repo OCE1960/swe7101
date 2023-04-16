@@ -15,6 +15,7 @@ class User(db.Model):
     is_active = db.Column(db.Boolean, nullable=True)
     staff = db.relationship('Staff', backref='users')
     student = db.relationship('Student', backref='users')
+    attendances_updated_by = db.relationship('ModuleLessonAttendance', backref='users')
     
     def __repr__(self):
         return f"User(id={self.id!r}, username{self.username!r})"

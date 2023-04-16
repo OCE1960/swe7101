@@ -1,0 +1,41 @@
+ This  will let staff bulk register attendance for all the students by module_lesson_id
+---
+tags:
+  - Attendance
+
+parameters:
+  - in: header
+    name: Authorization
+    required: true
+  - name: module_lesson_id
+    description: The module_lesson_id should be placed here
+    in: path
+    required: true
+    schema:
+      type: integer
+  - name: body
+    description: Here each student id and their corresponding attendance status should be entered as a dictionary inside the list
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        student_list:
+          type: array
+          items:
+            type: object
+            properties:
+              student_id:
+                type: integer
+                required: true
+              attendance_status:
+                type: string
+                required: true
+              
+
+
+responses:
+  200:
+    description: Attendance Registration Successful
+  401:
+    description: There was an error registering students
